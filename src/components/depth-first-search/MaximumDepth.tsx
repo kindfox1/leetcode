@@ -16,6 +16,7 @@ const MaximumDepth = () => {
     
     const root = { val: values[0] as number, left: null, right: null };
     const queue = [root];
+ 
     let i = 1;
     
     while (queue.length && i < values.length) {
@@ -32,14 +33,20 @@ const MaximumDepth = () => {
         queue.push(node.right);
       }
       i++;
+      console.log('queue', queue);
+      return;
     }
-    
     return root;
   };
 
   const maxDepth = (root: TreeNode | null): number => {
     if (!root) return 0;
     return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+  };
+
+  const maxDepth2 = (root: TreeNode | null): number => {
+    if (root === null) return 0;
+    return Math.max(maxDepth2(root.left), maxDepth2(root.right)) +1;
   };
 
   const handleCalculate = () => {
