@@ -37,6 +37,12 @@ const CalculateTilt = () => {
     return root;
   };
 
+  /*
+  Given the root node of a binary tree, write a recursive function to return the sum of each node's tilt.
+  The tilt of a node is the absolute difference between the sum of its left subtree and the sum of its right 
+  subtree. If a node has an empty left or subtree, the sum of the empty subtree is 0.
+  [5, 1, 3] => 2
+  */
   const findTilt = (root: TreeNode | null): number => {
     let totalTilt = 0;
     
@@ -52,6 +58,25 @@ const CalculateTilt = () => {
     };
     
     dfs(root);
+    return totalTilt;
+  };
+
+  const findTilt2 = (root: TreeNode | null): number => {
+    let totalTilt = 0;
+    
+    const dfs = (node: TreeNode | null): number => {
+      if (!node) return 0;
+
+      const leftSum = dfs(node.left);
+      const rightSum = dfs(node.right);
+
+      totalTilt += Math.abs(leftSum - rightSum);
+
+      return node.val + rightSum + leftSum;
+
+    }
+
+    totalTilt = dfs(root);
     return totalTilt;
   };
 

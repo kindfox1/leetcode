@@ -55,6 +55,20 @@ const TreeDiameter = () => {
     return maxDiameter;
   };
 
+  const diameterOfBinaryTree2 = (root: TreeNode | null): number => {
+    let maxDiameter = 0;
+    
+    const dfs = (node: TreeNode | null): number => {
+      if (!node) return 0;
+
+
+      return 0;
+    };
+    
+    dfs(root);
+    return maxDiameter;
+  };
+
   const handleCalculate = () => {
     try {
       const values = input.split(',').map(val => 

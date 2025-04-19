@@ -7,15 +7,17 @@ interface TreeNode {
   right: TreeNode | null;
 }
 
-const ValidateBST = () => {
+const GoodNodes = () => {
   const [input, setInput] = useState('');
-  const [result, setResult] = useState<boolean | null>(null);
+  const [result, setResult] = useState<number | null>(null);
+  const [nodes, setNodes] = useState<number[]>([]);
 
   const buildTree = (values: (number | null)[]): TreeNode | null => {
     if (!values.length) return null;
     
     const root = { val: values[0] as number, left: null, right: null };
     const queue = [root];
+ 
     let i = 1;
     
     while (queue.length && i < values.length) {
@@ -33,57 +35,37 @@ const ValidateBST = () => {
       }
       i++;
     }
-    
     return root;
   };
 
-  /*
-  Given the root of a binary, write a recursive function to determine if it is a valid binary search tree.
+  const countGoodNodes = (root: TreeNode | null, maxVal: number): number => {
+    console.log('==== root ====', root? root.val: 'null');
 
-  EXAMPLES
-  Given the root of a binary tree, determine if it is a valid binary search tree (BST).
+    if (!root) return 0;
 
-  A tree is a BST if the following conditions are met:
+    let count = 0;
 
-  - Every node on the left subtree has a value less than the value of the current node.
-  - Every node on the right subtree has a value greater than the value of the current node.
-  - The left and right subtrees must also be valid BSTs.
-  */
-  const isValidBST = (root: TreeNode | null): boolean => {
-    const validate = (node: TreeNode | null, min: number, max: number): boolean => {
-      if (!node) return true;
-      
-      if (node.val <= min || node.val >= max) return false;
-      
-      return validate(node.left, min, node.val) && 
-             validate(node.right, node.val, max);
-    };
-    
-    return validate(root, -Infinity, Infinity);
-  };
 
-  const isValidBST2 = (root: TreeNode | null): boolean => {
-    const validate = (node: TreeNode | null, min: number, max: number): boolean => {
-      if(!node) return true;
-
-      if (node.val < min || node.val >= max) {
-        return false;
-      }
-
-      return validate(node.left, min, node.val) && 
-        validate(node.right, node.val, max);
+    if (root.val >= maxVal) {
+        maxVal = root.val;
+        count = 1;
+        nodes.push(root.val);
     }
 
-    return validate(root, -Infinity, Infinity);
+    let leftCount = countGoodNodes(root.left, maxVal);
+    let rightCount = countGoodNodes(root.right, maxVal);
+
+    return leftCount + rightCount + count;
   };
 
-  const handleValidate = () => {
+
+  const handleCalculate = () => {
     try {
       const values = input.split(',').map(val => 
         val.trim() === 'null' ? null : Number(val)
       );
       const tree = buildTree(values);
-      setResult(isValidBST2(tree));
+      setResult(countGoodNodes(tree, -Infinity));
     } catch (error) {
       console.error('Invalid input');
     }
@@ -92,10 +74,10 @@ const ValidateBST = () => {
   return (
     <div className="bg-white rounded-lg shadow p-6">
       <Typography variant="h6" gutterBottom>
-        Validate Binary Search Tree
+        Count Good Nodes
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 2,1,3
+        Example: 4, 2, 7, 1, 3, 6, 9 output: 3
       </p>
       <TextField
         label="Enter tree values (comma-separated)"
@@ -108,23 +90,24 @@ const ValidateBST = () => {
       <Button 
         variant="contained" 
         color="primary" 
-        onClick={handleValidate}
+        onClick={handleCalculate}
         sx={{ mt: 2 }}
       >
-        Validate BST
+        Calculate Good Nodes
       </Button>
       {result !== null && (
         <Box mt={2}>
-          <Typography 
-            variant="h6" 
-            color={result ? 'success.main' : 'error.main'}
-          >
-            {result ? 'Valid BST!' : 'Not a valid BST'}
+          <Typography variant="h6">
+            Good nodes count: {result}
           </Typography>
+          <Typography variant="h6">
+            Good nodes: {JSON.stringify(nodes)}
+          </Typography>
+          
         </Box>
       )}
     </div>
   );
 };
 
-export default ValidateBST;
+export default GoodNodes;

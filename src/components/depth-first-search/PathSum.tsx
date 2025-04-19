@@ -49,6 +49,14 @@ const PathSum = () => {
            hasPathSum(root.right, targetSum - root.val);
   };
 
+  const hasPathSum2 = (root: TreeNode | null, targetSum: number): boolean => {
+    if (!root) return false;
+    if (!root.left && !root.right) return root.val === targetSum;
+
+    return (hasPathSum2(root.left, targetSum - root.val)) || 
+      (hasPathSum2(root.right, targetSum  - root.val));
+  };
+
   const handleCheck = () => {
     try {
       const values = input.split(',').map(val => 

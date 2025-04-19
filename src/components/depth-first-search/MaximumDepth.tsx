@@ -33,8 +33,6 @@ const MaximumDepth = () => {
         queue.push(node.right);
       }
       i++;
-      console.log('queue', queue);
-      return;
     }
     return root;
   };

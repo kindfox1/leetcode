@@ -17,6 +17,7 @@ import FloodFill from './depth-first-search/FloodFill';
 import NumberOfIslands from './depth-first-search/NumberOfIslands';
 import SurroundedRegions from './depth-first-search/SurroundedRegions';
 import PacificAtlantic from './depth-first-search/PacificAtlantic';
+import GoodNodes from './depth-first-search/GoodNodes';
 
 const DepthFirstSearch = () => {
   return (
@@ -29,6 +30,7 @@ const DepthFirstSearch = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <MaximumDepth />
           <PathSum />
+          <GoodNodes />
           <ValidateBST />
           <CalculateTilt />
           <TreeDiameter />
