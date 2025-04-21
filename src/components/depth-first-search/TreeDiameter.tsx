@@ -37,6 +37,12 @@ const TreeDiameter = () => {
     return root;
   };
 
+  /*
+  Given the root of a binary tree, write a recursive function to find the diameter of the tree. The diameter of a binary 
+  tree is the length of the longest path (# of edges) between any two nodes in a tree. This path may or may not pass through the root.
+  [3, 9, 2, 1, 4, null, null, null, 5] => 4
+  */
+
   const diameterOfBinaryTree = (root: TreeNode | null): number => {
     let maxDiameter = 0;
     
@@ -61,8 +67,11 @@ const TreeDiameter = () => {
     const dfs = (node: TreeNode | null): number => {
       if (!node) return 0;
 
+      const leftEdge = dfs(node.left);
+      const rightEdge = dfs(node.right);
+      maxDiameter = Math.max(maxDiameter, leftEdge + rightEdge);
 
-      return 0;
+      return Math.max(leftEdge, rightEdge) + 1;
     };
     
     dfs(root);

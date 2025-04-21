@@ -38,6 +38,14 @@ const PathSum2 = () => {
     return root;
   };
 
+  /*
+  Given the root of a binary tree and an integer target, write a recursive function to find all 
+  root-to-leaf paths where the sum of all the values along the path sum to target.
+  [1,2,4,4,7,5,1] target = 10
+  Output: [[1,2,7],[1,4,5]]. [[1,4,5],[1,2,7]] is also accepted.
+
+  The paths are 1 -> 2 -> 7 and 1 -> 4 -> 5
+  */
   const pathSum = (root: TreeNode | null, targetSum: number): number[][] => {
     const result: number[][] = [];
     
@@ -59,6 +67,44 @@ const PathSum2 = () => {
     return result;
   };
 
+  const pathSum2 = (root: TreeNode | null, targetSum: number): number[][] => {
+    const result: number[][] = [];
+
+    const dfs = (node: TreeNode | null, targetSum: number, path: number[]) => {
+      if (!node) return;
+      //console.log('************* ', node.val, ', target=', targetSum);
+      const newPath = [...path, node.val];
+
+      if (!node.left && !node.right && targetSum === node.val) {
+        result.push(newPath);
+        return;
+      }
+      dfs(node.left, targetSum - node.val, newPath);
+      dfs(node.right, targetSum - node.val, newPath);
+
+
+      // if (node.val === targetSum) {
+      //   newPath.push(node.val);
+      //   result.push(newPath);
+      //   console.log('match, path=', newPath);
+      //   console.log('match, result=', result);
+      // } else if (node.val > targetSum) {
+      //   return;
+      // } else if (node.val < targetSum) {
+        
+      //   newPath.push(node.val);
+      //   console.log('no match, path', newPath);
+      //   dfs(node.left, targetSum - node.val, newPath);
+      //   dfs(node.right, targetSum - node.val, newPath);
+        
+      // }
+    };
+    
+    dfs(root, targetSum, []);
+
+    return result;
+  };
+
   const handleFind = () => {
     try {
       const values = input.split(',').map(val => 
@@ -67,7 +113,7 @@ const PathSum2 = () => {
       const tree = buildTree(values);
       const sum = parseInt(targetSum);
       if (!isNaN(sum)) {
-        setResult(pathSum(tree, sum));
+        setResult(pathSum2(tree, sum));
       }
     } catch (error) {
       console.error('Invalid input');

@@ -78,6 +78,7 @@ const CopyGraph = () => {
       );
       const graph = buildGraph(adjList);
       const cloned = cloneGraph(graph);
+      console.log(cloned);
       setResult(serializeGraph(cloned));
     } catch (error) {
       console.error('Invalid input');
@@ -87,7 +88,7 @@ const CopyGraph = () => {
   return (
     <div className="bg-white rounded-lg shadow p-6">
       <Typography variant="h6" gutterBottom>
-        Clone Graph
+        Copy Graph
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
         Example: 2,4;1,3;2,4;1,3

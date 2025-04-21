@@ -37,6 +37,12 @@ const LongestUnivaluePath = () => {
     return root;
   };
 
+  /*
+  Given the root of the binary tree, find the longest path where all nodes along the path have the same value. 
+  This path doesn't have to include the root node. Return the number of edges on that path, not the number of nodes.
+  Input [1,4,5,4,4,5] Output: 2
+  Time: O(n), Space: O(n) n is number of nodes on tree
+  */
   const longestUnivaluePath = (root: TreeNode | null): number => {
     let maxLength = 0;
     
@@ -55,13 +61,37 @@ const LongestUnivaluePath = () => {
     return maxLength;
   };
 
+  const longestUnivaluePath2 = (root: TreeNode | null): number => {
+    let maxLength = 0;
+    
+    const dfs = (node: TreeNode | null, parentVal: number): number => {
+      if (!node) return 0;
+
+      const left = dfs(node.left, node.val);
+      const right = dfs(node.right, node.val);
+
+      maxLength = Math.max(left + right, maxLength);
+      console.log('maxlength', maxLength);
+
+      if (node.val === parentVal) {
+        return Math.max(left + 1, right + 1);
+      }
+
+      return 0;
+
+    };
+    
+    if (root) dfs(root, root.val);
+    return maxLength;
+  };
+
   const handleCalculate = () => {
     try {
       const values = input.split(',').map(val => 
         val.trim() === 'null' ? null : Number(val)
       );
       const tree = buildTree(values);
-      setResult(longestUnivaluePath(tree));
+      setResult(longestUnivaluePath2(tree));
     } catch (error) {
       console.error('Invalid input');
     }
@@ -73,8 +103,12 @@ const LongestUnivaluePath = () => {
         Longest Univalue Path
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 5,4,5,1,1,5
+        5,4,5,1,1,5 = 2
       </p>
+      <p className="text-sm text-gray-600 mb-4">
+        1,4,5,4,4,5 = 2
+      </p>
+      
       <TextField
         label="Enter tree values (comma-separated)"
         variant="outlined"

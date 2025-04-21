@@ -18,6 +18,7 @@ import NumberOfIslands from './depth-first-search/NumberOfIslands';
 import SurroundedRegions from './depth-first-search/SurroundedRegions';
 import PacificAtlantic from './depth-first-search/PacificAtlantic';
 import GoodNodes from './depth-first-search/GoodNodes';
+import CloneGraph from './depth-first-search/CloneGraph';
 
 const DepthFirstSearch = () => {
   return (
@@ -37,7 +38,8 @@ const DepthFirstSearch = () => {
           <PathSum2 />
           <LongestUnivaluePath />
           <AdjacencyList />
-          <CopyGraph />
+          <CloneGraph />
+          {/* <CopyGraph /> */}
           <ReturnValues />
           <PassingValues />
           <Graphs />
