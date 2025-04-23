@@ -10,6 +10,7 @@ import LinkedList from './components/LinkedList';
 import BinarySearch from './components/BinarySearch';
 import Heap from './components/Heap';
 import DepthFirstSearch from './components/DepthFirstSearch';
+import BreadthFirstSearch from './components/BreadthFirstSearch';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
               <Route path="/binary-search" element={<BinarySearch />} />
               <Route path="/heap" element={<Heap />} />
               <Route path="/depth-first-search" element={<DepthFirstSearch />} />
+              <Route path="/breath-first-search" element={<BreadthFirstSearch />} />
             </Routes>
           </div>
         </div>

@@ -61,13 +61,43 @@ const LevelOrderSum = () => {
     return result;
   };
 
+  const levelOrderSum2 = (root: TreeNode | null): number[] => {
+    if (!root) return [];
+    const result :number[] = [];
+    const queue :TreeNode[]= [root];
+
+
+    while (queue.length > 0) {
+      const n = queue.length;
+      let levelSum = 0;
+
+      for (let i=0; i<n; i++) {
+        const first = queue.shift()!;
+        levelSum += first.val;
+
+        if (first.left) {
+          queue.push(first.left);
+        }
+  
+        if (first.right) {
+          queue.push(first.right);
+        }
+      }
+      result.push(levelSum);
+    }
+    
+    
+    return result;
+  };
+
   const handleCalculate = () => {
     try {
       const values = input.split(',').map(val => 
         val.trim() === 'null' ? null : Number(val)
       );
       const tree = buildTree(values);
-      setResult(levelOrderSum(tree));
+      console.log(tree);
+      setResult(levelOrderSum2(tree));
     } catch (error) {
       console.error('Invalid input format');
     }

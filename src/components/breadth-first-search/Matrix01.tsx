@@ -46,12 +46,50 @@ const Matrix01 = () => {
     return result;
   };
 
+  const updateMatrix2 = (mat: number[][]): number[][] => {
+    const rows = mat.length;
+    const cols = mat[0].length;
+    const queue: [number, number][] = [];
+    const result = Array.from({ length: rows }, () => 
+      Array(cols).fill(Number.MAX_SAFE_INTEGER)
+    );
+
+    for (let i=0; i<rows; i++) {
+      for (let j=0; j<cols; j++) {
+        if (mat[i][j]===0) {
+          result[i][j] = 0;
+          queue.push([i,j]);
+        }
+      }
+    }
+
+    const directions = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+
+    while (queue.length > 0) {
+      const [x, y] = queue.shift()!;
+      for (const [r, c] of directions) {
+        const newX = x + r;
+        const newY = y + c;
+
+        if (newX >= 0 && newY >= 0 && newX < rows && newY < cols &&
+          result[newX][newY] > result[x][y] + 1
+        ) {
+          result[newX][newY] = result[x][y] + 1;
+          queue.push([newX, newY]);
+        }
+      }
+    }
+
+    
+    //console.log(queue);
+    
+    return result;
+  };
+
   const handleCalculate = () => {
     try {
-      const matrix = input.split(';').map(row => 
-        row.split(',').map(Number)
-      );
-      setResult(updateMatrix(matrix));
+      const matrix = JSON.parse(input);
+      setResult(updateMatrix2(matrix));
     } catch (error) {
       console.error('Invalid input format');
     }
@@ -63,7 +101,7 @@ const Matrix01 = () => {
         01 Matrix
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 0,0,0;0,1,0;1,1,1
+        [[0,0,0],[0,1,0],[1,1,1]] = [[0,0,0],[0,1,0],[1,2,1]]
       </p>
       <TextField
         label="Enter matrix (format: row1;row2;row3)"

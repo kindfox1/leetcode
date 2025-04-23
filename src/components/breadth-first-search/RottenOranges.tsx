@@ -48,12 +48,67 @@ const RottenOranges = () => {
     return freshOranges === 0 ? time : -1;
   };
 
+  const orangesRotting2 = (grid: number[][]): number => {
+    if (!grid || !grid.length) return -1;
+    const rotten: number[][] = [];
+    let freshNum = 0;
+    let time = 0;
+    const rows = grid.length;
+    const cols = grid[0].length;
+
+    for (let i=0; i<rows; i++) {
+      for (let j=0; j<cols; j++) {
+        if (grid[i][j]===2) {
+          rotten.push([i,j]);
+        } else if (grid[i][j]===1) {
+          freshNum++;
+        }
+      }
+    }
+
+    while (rotten.length > 0 && freshNum > 0) {
+      const size = rotten.length;
+      
+      for (let i=0; i<size; i++) { //the size could change every while loop
+        const [x, y] = rotten.shift()!;
+        if (x-1 >= 0 && grid[x-1][y] === 1) { //up
+          grid[x-1][y] = 2;
+          rotten.push([x-1, y]);
+          freshNum--;
+        }
+  
+        if (x+1 < rows && grid[x+1][y] === 1) { //down
+          grid[x+1][y] = 2;
+          rotten.push([x+1, y]);
+          freshNum--;
+        }
+  
+        if (y-1 >= 0 && grid[x][y-1] === 1) { //left
+          grid[x][y-1] = 2;
+          rotten.push([x, y-1]);
+          freshNum--;
+        }
+  
+        if (y+1 < cols && grid[x][y+1] === 1) { //right
+          grid[x][y+1] = 2;
+          rotten.push([x, y+1]);
+          freshNum--;
+        }
+      }
+      
+      time++;
+    }
+    
+    return freshNum === 0 ? time : -1; 
+  };
+
   const handleCalculate = () => {
     try {
-      const grid = input.split(';').map(row => 
-        row.split(',').map(Number)
-      );
-      setResult(orangesRotting(grid));
+      // const grid = input.split(';').map(row => 
+      //   row.split(',').map(Number)
+      // );
+      const grid = JSON.parse(input);
+      setResult(orangesRotting2(grid));
     } catch (error) {
       console.error('Invalid input format');
     }
@@ -65,7 +120,16 @@ const RottenOranges = () => {
         Rotting Oranges
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 2,1,1;1,1,0;0,1,1
+        [[2,1,1],[1,1,0],[0,1,1]] output: 3
+      </p>
+      <p className="text-sm text-gray-600 mb-4">
+        [[2,1],[1,1]] output: 2
+      </p>
+      <p className="text-sm text-gray-600 mb-4">
+        [[2,0],[0,1]] output: -1
+      </p>
+      <p className="text-sm text-gray-600 mb-4">
+        [[2,1,1,1],[1,1,1,2],[0,0,1,1]] output: 2
       </p>
       <TextField
         label="Enter grid (format: row1;row2;row3)"

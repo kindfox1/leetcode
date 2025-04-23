@@ -68,16 +68,58 @@ const ZigzagLevelOrder = () => {
     return result;
   };
 
+  const zigzagLevelOrder2 = (root: TreeNode | null): number[][] => {
+    if (!root) return [];
+    const queue: TreeNode[] = [root];
+    const result: number[][] = [];
+    let ltr: boolean = true;
+
+    while (queue.length > 0) {
+      const size = queue.length;
+      let currentLevel: number[] = [];
+      
+      for (let i=0; i<size; i++ ) {
+        const node = queue.shift()!;
+        if (ltr) {
+          console.log('left to right');
+          currentLevel.push(node.val);
+        } else {
+          console.log('right to left');
+          currentLevel.unshift(node.val);
+        }
+        
+        // const node = queue.shift()!;
+        //currentLevel.push(node.val);
+
+        if (node.left) {
+          queue.push(node.left);
+        }
+
+        if (node.right) {
+          queue.push(node.right);
+        }
+      }
+      
+      //console.log('currentlevel', currentLevel);
+      result.push(currentLevel);
+      ltr = !ltr;
+      
+      
+    }
+    console.log(result);
+    return result;
+  };
+
   const handleCalculate = () => {
-    try {
+    //try {
       const values = input.split(',').map(val => 
         val.trim() === 'null' ? null : Number(val)
       );
       const tree = buildTree(values);
-      setResult(zigzagLevelOrder(tree));
-    } catch (error) {
-      console.error('Invalid input format');
-    }
+      setResult(zigzagLevelOrder2(tree));
+    // } catch (error) {
+    //   console.error('Invalid input format');
+    // }
   };
 
   return (
@@ -88,6 +130,7 @@ const ZigzagLevelOrder = () => {
       <p className="text-sm text-gray-600 mb-4">
         Example: 3,9,20,null,null,15,7
       </p>
+      <p className="text-sm text-gray-600 mb-4">Output: [[3], [20, 9], [15, 7]]</p>
       <TextField
         label="Enter tree values (comma-separated)"
         variant="outlined"
