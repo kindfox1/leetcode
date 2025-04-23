@@ -46,12 +46,61 @@ const PacificAtlantic = () => {
     return result;
   };
 
+  const pacificAtlantic2 = (heights: number[][]): number[][] => {
+    if (!heights.length) return [];
+
+    const result :number[][]= [];
+    
+    const rows = heights.length;
+    const cols = heights[0].length;
+    const pacific = Array.from({ length: rows }, () => new Array(cols).fill(false));
+    const atlantic = Array.from({ length: rows }, () => new Array(cols).fill(false));
+    const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+
+    const dfs = (row: number, col: number, ocean: boolean[][]) => {
+      if (row < 0 || col < 0 || row >= rows || col >= cols) return; // out of bound
+      ocean[row][col] = true;
+      for (const [r, c] of directions) {
+        let nextRow = row + r;
+        let nextCol = col + c;
+
+        // if next cell at the boundry
+        if (nextRow >= 0 && nextRow < rows && nextCol >= 0 && nextCol < cols) {
+          if (!ocean[nextRow][nextCol] && heights[row][col] <= heights[nextRow][nextCol]) {
+            dfs(nextRow, nextCol, ocean);
+          }
+        }
+      }
+    };
+
+    for (let i = 0; i < rows; i++) {
+      dfs(i, 0, pacific); //left
+      dfs(i, cols-1, atlantic); //right
+    }
+
+    for (let j = 0; j < cols; j++) {
+      dfs(0, j, pacific); //up
+      dfs(rows-1, j, atlantic); //down
+    }
+
+    //check if each cell, if it can flow to both Pac and Atl, push to result[]
+    for (let i=0; i<rows; i++) {
+      for (let j=0; j<cols; j++) {
+        if (pacific[i][j] && atlantic[i][j]) {
+          result.push([i, j]);
+        }
+      }
+    }
+    return result;
+  };
+
   const handleCalculate = () => {
     try {
-      const heights = input.split(';').map(row => 
-        row.split(',').map(Number)
-      );
-      setResult(pacificAtlantic(heights));
+      // const heights = input.split(';').map(row => 
+      //   row.split(',').map(Number)
+      // );
+      const heights = JSON.parse(input);
+      setResult(pacificAtlantic2(heights));
     } catch (error) {
       console.error('Invalid input');
     }
@@ -63,7 +112,14 @@ const PacificAtlantic = () => {
         Pacific Atlantic Water Flow
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 1,2,2,3,5;3,2,3,4,4;2,4,5,3,1;6,7,1,4,5;5,1,1,2,4
+        input: [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]</p>
+      <p className="text-sm text-gray-600 mb-4">
+        output: [[0, 4],[1, 3],[1, 4],[2, 2],[3, 0],[3, 1],[4, 0]]
+      </p>
+      <p className="text-sm text-gray-600 mb-4">
+        input: [[1,2,3],[4,5,6],[7,8,9]]</p>
+      <p className="text-sm text-gray-600 mb-4">
+        output: [[0, 2],[1, 2],[2, 0],[2, 1],[2, 2]]
       </p>
       <TextField
         label="Enter heights (format: row1;row2;row3)"

@@ -28,6 +28,34 @@ const FloodFill = () => {
     return image;
   };
 
+  const floodFill2 = (image: number[][], sr: number, sc: number, newColor: number): number[][] => {
+    const oldColor = image[sr][sc];
+    if (oldColor === newColor) {
+      return image;
+    }
+
+    const dfs = (row: number, col: number) => {
+      if (row < 0 || col < 0 || row >= image.length || col >= image[0].length) {
+        return;
+      }
+
+      if (image[row][col] !== oldColor) { // when the color is not old color, ignore
+        return;
+      }
+
+      image[row][col] = newColor;
+      
+      dfs(row - 1, col);
+      dfs(row, col + 1);
+      dfs(row + 1, col);
+      dfs(row, col - 1);
+    }
+
+    dfs(sr, sc);
+
+    return image;
+  };
+
   const handleFill = () => {
     try {
       const image = input.split(';').map(row => 

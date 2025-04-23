@@ -19,6 +19,7 @@ import SurroundedRegions from './depth-first-search/SurroundedRegions';
 import PacificAtlantic from './depth-first-search/PacificAtlantic';
 import GoodNodes from './depth-first-search/GoodNodes';
 import CloneGraph from './depth-first-search/CloneGraph';
+import GraphValidTree from './depth-first-search/GraphValidTree';
 
 const DepthFirstSearch = () => {
   return (
@@ -39,6 +40,7 @@ const DepthFirstSearch = () => {
           <LongestUnivaluePath />
           <AdjacencyList />
           <CloneGraph />
+          <GraphValidTree />
           {/* <CopyGraph /> */}
           <ReturnValues />
           <PassingValues />
