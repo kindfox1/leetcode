@@ -79,9 +79,6 @@ const Matrix01 = () => {
         }
       }
     }
-
-    
-    //console.log(queue);
     
     return result;
   };

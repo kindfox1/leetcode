@@ -11,6 +11,7 @@ import BinarySearch from './components/BinarySearch';
 import Heap from './components/Heap';
 import DepthFirstSearch from './components/DepthFirstSearch';
 import BreadthFirstSearch from './components/BreadthFirstSearch';
+import Backtracking from './components/Backtracking';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
               <Route path="/heap" element={<Heap />} />
               <Route path="/depth-first-search" element={<DepthFirstSearch />} />
               <Route path="/breath-first-search" element={<BreadthFirstSearch />} />
+              <Route path="/backtracking" element={<Backtracking />} />
             </Routes>
           </div>
         </div>

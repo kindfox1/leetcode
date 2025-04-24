@@ -52,16 +52,144 @@ const BusRoutes = () => {
     return -1;
   };
 
+  // ChatGPT solution
+  function busRoutes(routes: number[][], source: number, target: number): number {
+    if (source === target) {
+      return 0;
+    }
+  
+    // Map of bus stop -> list of route indices
+    const busStops: Record<number, number[]> = {};
+    for (let i = 0; i < routes.length; i++) {
+      for (const stop of routes[i]) {
+        if (!busStops[stop]) {
+          busStops[stop] = [];
+        }
+        busStops[stop].push(i);
+      }
+    }
+  
+    const visited = new Set<number>();
+    const queue: [number, number][] = [];
+  
+    // Initialize queue with all routes from the source stop
+    if (!busStops[source]) {
+      return -1; // source stop is not in any route
+    }
+  
+    for (const bus of busStops[source]) {
+      queue.push([bus, 1]);
+      visited.add(bus);
+    }
+  
+    while (queue.length > 0) {
+      const [currBus, numChanges] = queue.shift()!;
+  
+      for (const stop of routes[currBus]) {
+        if (stop === target) {
+          return numChanges;
+        }
+  
+        for (const nextBus of busStops[stop]) {
+          if (!visited.has(nextBus)) {
+            queue.push([nextBus, numChanges + 1]);
+            visited.add(nextBus);
+          }
+        }
+      }
+    }
+  
+    return -1; // no path found
+  }
+  
+
+  // [[1,2,7],[3,6,7]] Source: 1 Target: 6 Output 2
+  const numBusesToDestination2 = (routes: number[][], source: number, target: number): number => {
+    if (source === target) return 0;
+    let sourceRoute: number | null = null;
+    let sourceStopIndex: number | null = null;
+    let targetRoute: number | null = null;
+    let targetStopIndex: number | null = null;
+    const stopsMap = new Map();
+    let result = 0;
+    
+    for (let i=0; i<routes.length; i++) {
+      for (let stop=0; stop<routes[i].length; stop++) {
+        if (stopsMap.has(routes[i][stop])) {
+          console.log(stopsMap.get(routes[i][stop]));
+          stopsMap.set(routes[i][stop], [...stopsMap.get(routes[i][stop]), i]);
+        } else {
+          stopsMap.set(routes[i][stop], [i]);
+        }
+
+        if (routes[i][stop] === source) {
+          sourceRoute = i;
+          sourceStopIndex = stop;
+        }
+
+        if (routes[i][stop] === target) {
+          targetRoute = i;
+          targetStopIndex = stop;
+        }
+      }
+    }
+    console.log('map', stopsMap);
+
+    if (sourceRoute === targetRoute && sourceRoute !== null) {
+      return 1;
+    }
+
+    
+
+    //now we know the source and target are not on the same route
+    let loop = 0;
+    let currX = sourceRoute!;
+    let currY = sourceStopIndex!;
+    while (loop < 10) {
+      console.log('current stop', routes[currX][currY]);
+      console.log('indexs', currX, currY);
+      if (currY-1 >=0) {
+        if (stopsMap.get(routes[currX][currY-1]).length > 1) { //found connection??
+          currX = stopsMap.get(routes[currX][currY-1]).filter((routeIndex: number) => currX !== routeIndex );
+          result++;
+        } else {
+          currY = currY -1;
+        }
+      }
+
+      console.log('currX', currX);
+      console.log('currY', currY+1)
+
+      if (currY+1 < routes[currX].length) {
+        console.log('next', routes[currX][currY+1]);
+        if (stopsMap.get(routes[currX][currY+1]).length > 1) { //found connection??
+          currX = stopsMap.get(routes[currX][currY+1]).filter((routeIndex: number) => currX !== routeIndex );
+          result++;
+        } else {
+          currY = currY+1;
+        }
+      }
+
+
+
+      loop++;
+    }
+    
+    
+    return result;
+  };
+
   const handleCalculate = () => {
     try {
-      const routesArray = routes.split(';').map(route => 
-        route.split(',').map(Number)
-      );
+      // const routesArray = routes.split(';').map(route => 
+      //   route.split(',').map(Number)
+      // );
+      const routesArray = JSON.parse(routes);
       const sourceNum = parseInt(source);
       const targetNum = parseInt(target);
       
       if (!isNaN(sourceNum) && !isNaN(targetNum)) {
-        setResult(numBusesToDestination(routesArray, sourceNum, targetNum));
+        setResult(busRoutes(routesArray, sourceNum, targetNum));
       }
     } catch (error) {
       console.error('Invalid input format');
@@ -73,9 +201,9 @@ const BusRoutes = () => {
       <Typography variant="h6" gutterBottom>
         Bus Routes
       </Typography>
-      <p className="text-sm text-gray-600 mb-4">
-        Example Routes: 1,2,7;3,6,7 Source: 1 Target: 6
-      </p>
+      <p className="text-sm text-gray-600 mb-4">[[1,2,7],[3,6,7]] Source: 1 Target: 6 Output 2</p>
+      <p className="text-sm text-gray-600 mb-4">[[3, 8, 9], [5, 6, 8], [1, 7, 10]] source = 3 target = 6, output: 2 </p>
+      <p className="text-sm text-gray-600 mb-4">[[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]] source = 1 target = 12, output: -1 </p>
       <TextField
         label="Enter routes (format: route1;route2)"
         variant="outlined"
