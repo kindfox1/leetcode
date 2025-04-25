@@ -27,6 +27,7 @@ export default function Sidebar() {
     { name: 'Depth-First Search', path: '/depth-first-search' },
     { name: 'Breath-First Search', path: '/breath-first-search' },
     { name: 'Backtracking', path: '/backtracking' },
+    { name: 'Graphs', path: '/graphs' },
   ];
 
   return (
