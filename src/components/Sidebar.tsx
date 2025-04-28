@@ -28,6 +28,11 @@ export default function Sidebar() {
     { name: 'Breath-First Search', path: '/breath-first-search' },
     { name: 'Backtracking', path: '/backtracking' },
     { name: 'Graphs', path: '/graphs' },
+    { name: 'Dynamic Programming', path: '/dynamic-programming' },
+    { name: 'Greedy Algorithm', path: '/greedy' },
+    { name: 'Trie', path: '/trie' },
+    { name: 'Prefix Sum', path: '/prefix-sum' },
+    { name: 'Matrices', path: '/matrices' },
   ];
 
   return (

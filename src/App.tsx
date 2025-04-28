@@ -13,6 +13,11 @@ import DepthFirstSearch from './components/DepthFirstSearch';
 import BreadthFirstSearch from './components/BreadthFirstSearch';
 import Backtracking from './components/Backtracking';
 import Graphs from './components/Graphs';
+import DynamicProgramming from './components/DynamicProgramming';
+import Greedy from './components/greedy';
+import Trie from './components/Trie';
+import PrefixSum from './components/PrefixSum';
+import Matrices from './components/Matrices';
 
 function App() {
   return (
@@ -34,6 +39,11 @@ function App() {
               <Route path="/breath-first-search" element={<BreadthFirstSearch />} />
               <Route path="/backtracking" element={<Backtracking />} />
               <Route path="/graphs" element={<Graphs />} />
+              <Route path="/dynamic-programming" element={<DynamicProgramming />} />
+              <Route path="/greedy" element={<Greedy />} />
+              <Route path="/trie" element={<Trie />} />
+              <Route path="/prefix-sum" element={<PrefixSum />} />
+              <Route path="/matrices" element={<Matrices />} />
             </Routes>
           </div>
         </div>
