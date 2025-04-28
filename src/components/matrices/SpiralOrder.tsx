@@ -62,8 +62,6 @@ const SpiralOrder = () => {
         Array(cols).fill(false)
     );
 
-    console.log(visited);
-
     let count = 0;
     const totalNodes = rows * cols;
     let currRow = 0;
@@ -95,7 +93,7 @@ const SpiralOrder = () => {
                 currRow = currRow + directions[currDir][0];
                 currCol = currCol + directions[currDir][1];
             }
-        }else if (currDir === 1) { // move down
+        } else if (currDir === 1) { // move down
             console.log('moving down');
             if (canMove(currRow, currCol, currDir)) {
                 currRow = currRow + directions[currDir][0];
