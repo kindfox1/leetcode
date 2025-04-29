@@ -17,7 +17,7 @@ const TwoSum2 = () => {
   const handleSubmit = () => {
     const nums = array.split(',').map(Number);
     const targetNum = Number(target);
-    const indices = twoSumII(nums, targetNum);
+    const indices = twoSumII3(nums, targetNum);
     setResult(indices.length ? `Indices: ${indices.join(', ')}` : 'No solution found');
   };
 
@@ -56,10 +56,25 @@ const TwoSum2 = () => {
         left++;
       }
     }
+  };
 
-    
+  const twoSumII3 = (nums: number[], target: number) => {
+    let left = 0;
+    let right = nums.length - 1;
 
-    
+    while (left <= right) {
+      let sum = nums[left] + nums[right];
+      if (sum === target) {
+        return [left, right];
+      } else if (sum < target) {
+        left++;
+      } else if (sum > target) {
+        right--;
+      }
+
+
+    }
+
   };
 
   return (

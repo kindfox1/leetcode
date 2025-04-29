@@ -49,6 +49,7 @@ const triangleNumber = (nums) => {
       }
     }
   }
+  console.log('count0', count);
   return count;
 };
 
@@ -77,6 +78,29 @@ const triangleNumber2 = (nums) => {
   return count;
 };
 
+const triangleNumber3 = (nums: number[]) => {
+  let count = 0; 
+  nums.sort((a, b) => a - b);
+
+  for (let i=nums.length -1; i>1; i--) {
+    let left = 0;
+    let right = i - 1;
+
+    while (left < right) {
+      if (nums[left] + nums[right] > nums[i]) {
+        count = count + (right - left);
+        right--
+      } else {
+        left++;
+      }
+    }
+    
+  }
+
+  console.log(count);
+  return count;
+};
+
 const TriangleTripletCounter = () => {
   const [input, setInput] = useState('');
   const [result, setResult] = useState(null);
@@ -84,11 +108,12 @@ const TriangleTripletCounter = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const nums = input.split(',').map(Number);
-    const { count, triplets } = findTriangleTriplets(nums);
+    //const nums = input.split(',').map(Number);
+    const nums = JSON.parse(input);
+    //const { count, triplets } = findTriangleTriplets(nums);
 
-    setNumOfTriangles(triangleNumber2(nums));
-    setResult({ count, triplets });
+    setNumOfTriangles(triangleNumber3(nums));
+    //setResult({ count, triplets });
   };
 
   return (
@@ -111,20 +136,18 @@ const TriangleTripletCounter = () => {
             Count Triplets
           </Button>
         </form>
-        {result !== null && (
           <Box mt={4}>
             <Typography variant="h6">
-              Number of triplets that can form a triangle: {result.count} || {numOfTriangles}
+              Number of triplets that can form a triangle: {numOfTriangles}
             </Typography>
             <List>
-              {result.triplets.map((triplet, index) => (
+              {/* {result.triplets.map((triplet, index) => (
                 <ListItem key={index}>
                   <ListItemText primary={`(${triplet.join(', ')})`} />
                 </ListItem>
-              ))}
+              ))} */}
             </List>
           </Box>
-        )}
       </Box>
     </Container>
   );

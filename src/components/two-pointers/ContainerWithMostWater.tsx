@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { TextField, Button, Typography } from '@mui/material';
 
 /*
-Given an integer input array heights representing the heights of vertical lines, write a function that returns the maximum area of water that can be contained by two of the lines (and the x-axis). The function should take in an array of integers and return an integer.
+Given an integer input array heights representing the heights of vertical lines, write a function that returns the maximum area of 
+water that can be contained by two of the lines (and the x-axis). The function should take in an array of integers and return an integer.
 - [3,4,1,2,2,4,1,3,2] ===> 21
 - [1,2,1] ===> 2
 */
@@ -18,7 +19,7 @@ const ContainerWithMostWater = () => {
   };
 
   const findMaxArea = () => {
-    const area = maxAreaContainer2(heights);
+    const area = maxAreaContainer4(heights);
     setMaxArea(area);
   };
 
@@ -66,6 +67,7 @@ const ContainerWithMostWater = () => {
         right--;
       }
     }
+    return maxArea;
   };
 
   const maxAreaContainer3 = (heightsX) => {
@@ -85,6 +87,26 @@ const ContainerWithMostWater = () => {
         right--;
       }
     }
+    return maxArea;
+  };
+
+  const maxAreaContainer4 = (heights: number[]) => {
+    let maxArea = 0;
+    let left = 0;
+    let right = heights.length -1;
+
+    while(left <= right) {
+      let height = Math.min(heights[left], heights[right]);
+      let width = right - left;
+      maxArea = Math.max(maxArea, width * height);
+
+      if (heights[left] < heights[right]) {
+        left++;
+      } else {
+        right--;
+      }
+    }
+    return maxArea;
   };
 
   return (

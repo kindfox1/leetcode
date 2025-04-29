@@ -1,7 +1,8 @@
 import React from 'react';
 import { Typography } from '@mui/material';
 import SpiralOrder from './matrices/SpiralOrder';
-
+import RotateMatrix from './matrices/RotateMatrix';
+import SetMatrixZeroes from './matrices/SetMatrixZeroes';
 
 const Matrices = () => {
   return (
@@ -13,6 +14,8 @@ const Matrices = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <SpiralOrder />
+            <RotateMatrix />
+            <SetMatrixZeroes />
         </div>
       </div>
     </main>

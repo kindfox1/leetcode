@@ -7,18 +7,18 @@ const TwoSum = () => {
   const [target, setTarget] = useState('');
   const [result, setResult] = useState('');
 
-  const handleArrayChange = (event) => {
-    setArray(event.target.value);
+  const handleArrayChange = (event: Event) => {
+    setArray((event.target as HTMLInputElement)?.value || '');
   };
 
-  const handleTargetChange = (event) => {
+  const handleTargetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTarget(event.target.value);
   };
 
   const handleSubmit = () => {
     const nums = array.split(',').map(Number);
     const targetNum = Number(target);
-    const indices = twoSum(nums, targetNum);
+    const indices = twoSum3(nums, targetNum);
     setResult(indices.length ? `Indices: ${indices.join(', ')}` : 'No solution found');
   };
 
@@ -26,7 +26,7 @@ const TwoSum = () => {
   Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
   [2, 7, 11, 15], target = 9 , output [0, 1]
   */
-  const twoSum = (nums, target) => {
+  const twoSum = (nums: number[], target: number) => {
     const numMap = new Map();
     for (let i = 0; i < nums.length; i++) {
       const complement = target - nums[i];
@@ -38,7 +38,7 @@ const TwoSum = () => {
     return [];
   };
 
-  const twoSum2 = (nums, target) => {
+  const twoSum2 = (nums: number[], target: number) => {
     console.log('in here');
     const numMaps = new Map();
     for (let i=0; i < nums.length; i++) {
@@ -50,6 +50,18 @@ const TwoSum = () => {
     }
 
     
+  };
+
+  const twoSum3 = (nums: number[], target: number) => {
+    const numMap = new Map();
+    for (let i=0; i<nums.length; i++) {
+      if (numMap.has(target - nums[i])) {
+        return [numMap.get(target-nums[i]), i];
+      }
+      numMap.set(nums[i], i);
+    }
+
+    return [];
   };
 
   return (

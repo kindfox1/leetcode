@@ -75,14 +75,45 @@ const TrappingRainWater = () => {
     return water;
   };
 
+  const trap3 = (height: number[]) => {
+    let water = 0;
+    let left = 0;
+    let right = height.length - 1;
+    let leftMax = height[0];
+    let rightMax = height[height.length-1];
+
+    while (left + 1 < right) {
+
+      if (leftMax < rightMax) {
+        if(leftMax > height[left+1]) {
+          water += leftMax - height[left+1];
+        } else {
+          leftMax = Math.max(leftMax, height[left+1]);
+        }
+        left++;
+      } else {
+        if(height[right-1] < rightMax) {
+          water += rightMax - height[right-1];
+        } else {
+          rightMax = Math.max(rightMax, height[right-1]);
+        }
+        right--;
+      }
+
+    }
+
+    return water;
+  };
+
   const handleInputChange = (event) => {
     setInput(event.target.value);
   };
 
   const handleCalculateWater = () => {
-    const heightsArray = input.split(',').map(Number);
+    //const heightsArray = input.split(',').map(Number);
+    const heightsArray = JSON.parse(input);
     setHeights(heightsArray);
-    const totalWater = trap2(heightsArray);
+    const totalWater = trap3(heightsArray);
     setResult(totalWater);
   };
 
