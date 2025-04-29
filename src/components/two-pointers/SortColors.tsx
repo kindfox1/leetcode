@@ -12,7 +12,7 @@ const SortColors = () => {
   in the order of red, white, and blue (0, 1, 2).
   [2,1,2,0,1,0,1,0,1] => [0,0,0,1,1,1,1,2,2]
   */
-  const sortColors = (nums) => {
+  const sortColors = (nums: number[]) => {
     let low = 0;
     let mid = 0;
     let high = nums.length - 1;
@@ -32,7 +32,7 @@ const SortColors = () => {
     return nums;
   };
 
-  const sortColors2 = (nums) => {
+  const sortColors2 = (nums: number[]) => {
     let left = 0;
     let mid = 0;
     let right = nums.length-1;
@@ -52,12 +52,12 @@ const SortColors = () => {
     return nums;
   };
 
-  const sortColors3 = (nums) => {
+  const sortColors3 = (nums: number[]) => {
     let left = 0;
     let mid = 0;
     let right = nums.length-1;
 
-    while (mid < high) {
+    while (mid < right) {
      if (nums[mid] === 0) {
        [nums[left], nums[mid]] = [nums[mid], nums[left]];
        left++;
@@ -72,7 +72,7 @@ const SortColors = () => {
     return nums;
   };
 
-  const sortColors4 = (nums) => {
+  const sortColors4 = (nums: number[]) => {
     let left = 0;
     let mid = 0;
     let right = nums.length-1;
