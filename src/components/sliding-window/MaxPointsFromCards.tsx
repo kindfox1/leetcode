@@ -57,11 +57,37 @@ const MaxPointsFromCards = () => {
     return maxSum;
   };
 
+  const maxScore3 = (cardPoints: number[], k: number): number => {
+    const n = cardPoints.length;
+    let winSum = 0;
+    let maxSum = 0;
+
+    // imagine a window size of n - k, moving from most left to right, 
+    // calculate the cards outside of that windows and keep track for the maxSum
+
+    for (let i=n-k; i<n; i++) {
+      winSum += cardPoints[i];
+    }
+
+    // now move that window to right step by step
+    let start = 0;
+    let end = n-k-1;
+    maxSum = winSum;
+
+    while (end+1 < n) {
+      winSum = winSum - cardPoints[end+1] + cardPoints[start];
+      maxSum = Math.max(maxSum, winSum)
+      start++;
+      end++;
+    }
+    return maxSum;
+  };
+
   const handleCalculate = () => {
     const numbers = input.split(',').map(Number);
     const size = parseInt(k);
     if (!isNaN(size) && size > 0) {
-      const maxPoints = maxScore2(numbers, size);
+      const maxPoints = maxScore3(numbers, size);
       setResult(maxPoints);
     }
   };
@@ -71,7 +97,8 @@ const MaxPointsFromCards = () => {
       <Typography variant="h6" gutterBottom>
         Maximum Points from Cards
       </Typography>
-      <p>Example: 1,2,3,4,5,6,1 with k=3</p>
+      <p>1,2,3,4,5,6,1 with k=3, output: 12</p>
+      <p>2,11,4,5,3,9,2 with k=3, output: 17</p>
       <TextField
         label="Enter card points (comma-separated)"
         variant="outlined"

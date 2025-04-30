@@ -18,10 +18,10 @@ const FruitBasket = () => {
 
   const handleCalculate = () => {
     const fruitsArray = fruits.split(',').map((fruit) => fruit.trim());
-    setMaxFruits(maxFruitsInBaskets(fruitsArray));
+    setMaxFruits(maxFruitsInBaskets3(fruitsArray));
   };
 
-  const maxFruitsInBaskets = (fruits) => {
+  const maxFruitsInBaskets = (fruits: number[]) => {
     let left = 0;
     let right = 0;
     let maxFruits = 0;
@@ -69,6 +69,46 @@ const FruitBasket = () => {
       maxFruits = Math.max(maxFruits, right - left + 1);
       right++;
     }
+
+    return maxFruits;
+  };
+
+  const maxFruitsInBaskets3 = (fruits: number[]): number => {
+    console.log('maxFruitsInBaskets3');
+    let left = 0;
+    let right = 0;
+    let maxFruits = 0;
+    const basket = new Map();
+
+    while (right < fruits.length) {
+      
+
+      if (basket.size > 2) {
+        if (basket.get(fruits[left]) > 1) {
+          basket.set(fruits[left], basket.get(fruits[left])-1); 
+        } else { // delete the element if it is 0
+          basket.delete(fruits[left]);
+        }
+        
+        left++;
+      } else {
+        
+
+        if (basket.has(fruits[right])) {
+          basket.set(fruits[right], basket.get(fruits[right]) + 1)
+        } else {
+          basket.set(fruits[right], 1);
+        }
+
+        if (basket.size <= 2) {
+          maxFruits = Math.max(maxFruits, right - left + 1);
+         
+        }
+        right++;
+      }
+    }
+
+    console.log('maxFruits', maxFruits);
 
     return maxFruits;
   };

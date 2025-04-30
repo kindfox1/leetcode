@@ -10,8 +10,43 @@ const LongestSubstring = () => {
   };
 
   const handleSubmit = () => {
-    const length = lengthOfLongestSubstring(input);
+    const length = lengthOfLongestSubstring3(input);
     setResult(length);
+  };
+
+  //example: "eghghhgg" Output: 3 e.g "egh"
+  const lengthOfLongestSubstring = (s) => {
+    let maxLength = 0;
+    let start = 0;
+    const seenChars = new Map();
+  
+    for (let end = 0; end < s.length; end++) {
+      const currentChar = s[end];
+      if (seenChars.has(currentChar) && seenChars.get(currentChar) >= start) {
+        start = seenChars.get(currentChar) + 1;
+      }
+      seenChars.set(currentChar, end);
+      maxLength = Math.max(maxLength, end - start + 1);
+    }
+  
+    return maxLength;
+  };
+
+  const lengthOfLongestSubstring3 = (s: string) => {
+    let maxLength = 0;
+    let start = 0;
+    const seenChars = new Map(); // (char: index)
+
+    for (let i=0; i<s.length; i++) {
+      if (seenChars.has(s[i]) && start <= seenChars.get(s[i])) {
+        start = seenChars.get(s[i]) + 1;
+        seenChars.set(s[i], seenChars.get(s[i]));
+      }
+      seenChars.set(s[i], i);
+      maxLength = Math.max(maxLength, i - start + 1);
+    }
+
+    return maxLength;
   };
 
   return (
@@ -20,7 +55,7 @@ const LongestSubstring = () => {
         <Typography variant="h6" gutterBottom>
           Longest Substring Without Repeating Characters
         </Typography>
-        <p>example: eghghhgg</p>
+        <p>example: "eghghhgg" Output: 3 e.g "egh"</p>
         <TextField
           label="Input String"
           variant="outlined"
@@ -41,25 +76,6 @@ const LongestSubstring = () => {
     </Container>
   );
 };
-
-const lengthOfLongestSubstring = (s) => {
-  let maxLength = 0;
-  let start = 0;
-  const seenChars = new Map();
-
-  for (let end = 0; end < s.length; end++) {
-    const currentChar = s[end];
-    if (seenChars.has(currentChar) && seenChars.get(currentChar) >= start) {
-      start = seenChars.get(currentChar) + 1;
-    }
-    seenChars.set(currentChar, end);
-    maxLength = Math.max(maxLength, end - start + 1);
-  }
-
-  return maxLength;
-};
-
-
 const lengthOfLongestSubstring2 = (s) => {
   console.log('in lengthOfLongestSubstring2');
   let left = 0;

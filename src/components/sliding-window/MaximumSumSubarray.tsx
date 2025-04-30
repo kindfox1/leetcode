@@ -51,7 +51,6 @@ const MaximumSumSubarray = () => {
         currentSum = currentSum - arr[start] + arr[end];
         maxSum = Math.max(maxSum, currentSum);
         start++;
-        console.log(end, maxSum, currentSum);
       }
       
     } 
@@ -59,11 +58,30 @@ const MaximumSumSubarray = () => {
     return maxSum;
   };
 
+  const findMaxSum3 = (arr: number[], k: number) => {
+
+    let maxSum = 0;
+    let start = 0;
+    let windowSum = 0;
+    for (let x=0; x<k; x++) {
+        windowSum += arr[x];
+    }
+
+    maxSum = windowSum
+
+    for (let i=k; i<arr.length; i++) {
+      windowSum = windowSum + arr[i] - arr[start]; //shift window to right and get the windowSum
+      maxSum = Math.max(maxSum, windowSum);
+      start++;
+    }
+    return maxSum;
+  };
+
   const handleCalculate = () => {
     const numbers = input.split(',').map(Number);
     const size = parseInt(k);
     if (!isNaN(size) && size > 0) {
-      const maxSum = findMaxSum2(numbers, size);
+      const maxSum = findMaxSum3(numbers, size);
       setResult(maxSum);
     }
   };
@@ -73,7 +91,7 @@ const MaximumSumSubarray = () => {
       <Typography variant="h6" gutterBottom>
         Maximum Sum of Subarray of Size K
       </Typography>
-      <p>Example: 2,1,5,1,3,2 with k=3</p>
+      <p>2,1,5,1,3,2 with k=3 ouput: 9</p>
       <TextField
         label="Enter numbers (comma-separated)"
         variant="outlined"
