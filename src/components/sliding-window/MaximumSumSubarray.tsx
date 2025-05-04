@@ -6,6 +6,7 @@ const MaximumSumSubarray = () => {
   const [k, setK] = useState('');
   const [result, setResult] = useState(null);
 
+  // 2,1,5,1,3,2 with k=3 ouput: 9
   const findMaxSum = (arr: number[], k: number) => {
     if (arr.length < k) return 0;
     

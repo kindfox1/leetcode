@@ -78,6 +78,23 @@ const TreeDiameter = () => {
     return maxDiameter;
   };
 
+  const diameterOfBinaryTree3 = (root: TreeNode | null): number => {
+    let maxDiameter = 0;
+
+    const dfs = (node: TreeNode | null): number => {
+      if (!node) return 0;
+      const leftDepth = dfs(node.left);
+      const rightDepth = dfs(node.right);
+
+      maxDiameter = Math.max(maxDiameter, leftDepth + rightDepth);
+      return Math.max(leftDepth, rightDepth) +1;
+    }
+
+    dfs(root);
+
+    return maxDiameter;
+  };
+
   const handleCalculate = () => {
     try {
       const values = input.split(',').map(val => 
@@ -96,7 +113,7 @@ const TreeDiameter = () => {
         Binary Tree Diameter
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 1,2,3,4,5
+        Example: 1,2,3,4,5 output: 3
       </p>
       <TextField
         label="Enter tree values (comma-separated)"

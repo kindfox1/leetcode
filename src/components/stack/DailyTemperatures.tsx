@@ -55,7 +55,8 @@ const DailyTemperatures = () => {
   };
 
   const handleCalculate = () => {
-    const temperatures = input.split(',').map(Number);
+    //const temperatures = input.split(',').map(Number);
+    const temperatures = JSON.parse(input);
     setResult(findWarmerTemperatures(temperatures));
     findWarmerTemperatures2(temperatures)
   };
@@ -66,9 +67,9 @@ const DailyTemperatures = () => {
         Daily Temperatures
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 73,74,75,71,69,72,76,73 = [1, 1, 4, 2, 1, 1, 0, 0]</p>
+        [73,74,75,71,69,72,76,73] = [1,1,4,2,1,1,0,0]</p>
       
-      <p className="text-sm text-gray-600 mb-4">[65, 70, 68, 60, 55, 75, 80, 74] = [1,4,3,2,1,1,0,0]</p>
+      <p className="text-sm text-gray-600 mb-4">[65,70,68,60,55,75,80,74] = [1,4,3,2,1,1,0,0]</p>
       <TextField
         label="Enter temperatures"
         variant="outlined"

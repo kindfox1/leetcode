@@ -77,13 +77,27 @@ const ValidateBST = () => {
     return validate(root, -Infinity, Infinity);
   };
 
+  const isValidBST3 = (root: TreeNode | null): boolean => {
+    const dfs = (node: TreeNode | null, min: number, max: number): boolean => {
+      if (!node) return true;
+
+      if (node.val > min && node.val < max) {
+        return dfs(node.left, min, node.val) && dfs(node.right, node.val, max);
+      } else {
+        return false;
+      }
+    };
+
+    return dfs(root, -Infinity, Infinity);
+  };
+
   const handleValidate = () => {
     try {
       const values = input.split(',').map(val => 
         val.trim() === 'null' ? null : Number(val)
       );
       const tree = buildTree(values);
-      setResult(isValidBST2(tree));
+      setResult(isValidBST3(tree));
     } catch (error) {
       console.error('Invalid input');
     }
@@ -95,8 +109,10 @@ const ValidateBST = () => {
         Validate Binary Search Tree
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 2,1,3
+        2,1,3 output: true
       </p>
+      <p className="text-sm text-gray-600 mb-4">4,1,5,null,null,3,6 Output: false</p>
+      <p className="text-sm text-gray-600 mb-4">4,2,7,1,3,6,9 Output: true</p>
       <TextField
         label="Enter tree values (comma-separated)"
         variant="outlined"

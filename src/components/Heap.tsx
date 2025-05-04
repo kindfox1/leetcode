@@ -5,6 +5,8 @@ import KClosesPoints from './heap/FindKClosest';
 import KClosestPoints from './heap/KClosestPoints';
 import KthLargest from './heap/KthLargest';
 import MergeKSorted from './heap/MergeKSorted';
+import FindTopKFrequent from './heap/FindTopKFrequent';
+import ConnectSticks from './heap/ConnectSticks';
 
 const Heap = () => {
   return (
@@ -20,6 +22,9 @@ const Heap = () => {
           <KClosestPoints />
           <KthLargest />
           <MergeKSorted />
+          <FindKClosest />
+          <FindTopKFrequent />
+          <ConnectSticks />
         </div>
       </div>
     </main>

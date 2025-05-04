@@ -97,16 +97,42 @@ const InsertInterval = () => {
     return intervals;
   };
 
+  const insert4 = (intervals: number[][], newInterval: number[]): number[][] => {
+    let result: number[][] = [];
+    const n: number = intervals.length;
+    let i=0;
+
+    while (i < n && intervals[i][1] < newInterval[0]) {
+      result.push(intervals[i]);
+      i++;
+    }
+
+    while (i<n && intervals[i][0] <= newInterval[1] ) {
+      newInterval[0] = Math.min(intervals[i][0], newInterval[0]);
+      newInterval[1] = Math.max(intervals[i][1], newInterval[1]);
+      i++;
+    }
+    result.push(newInterval);
+    while (i<n) {
+      result.push(intervals[i]);
+      i++;
+    }
+  
+    return result;
+  };
+
   
 
   const handleInsert = () => {
     try {
-      const intervalList = intervals.split(';').map(interval => 
-        interval.split(',').map(Number)
-      );
-      const newIntervalArr = newInterval.split(',').map(Number);
+      // const intervalList = intervals.split(';').map(interval => 
+      //   interval.split(',').map(Number)
+      // );
+      // const newIntervalArr = newInterval.split(',').map(Number);
 
-      setResult(insert3(intervalList, newIntervalArr));
+      const intervalList = JSON.parse(intervals);
+      const newIntervalArr = JSON.parse(newInterval);
+      setResult(insert4(intervalList, newIntervalArr));
     } catch (error) {
       console.error('Invalid input format');
     }
@@ -118,13 +144,13 @@ const InsertInterval = () => {
         Insert Interval
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example Intervals: 1,3;6,9
-        New Interval: 2,5
+        Example Intervals: [[1,3],[6,9]]
+        New Interval: [2,5]
         Result: [[1,5],[6,9]]
       </p>
       <p className="text-sm text-gray-600 mb-4">
-        Example Intervals: 1,3;4,6;6,7;8,10;11,15
-        New Interval: 5,8
+        Example Intervals: [[1,3],[4,6],[6,7],[8,10],[11,15]]
+        New Interval: [5,8]
         Result: [[1,5],[6,9]]
       </p>
       <TextField

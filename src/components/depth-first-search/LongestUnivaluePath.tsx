@@ -85,13 +85,35 @@ const LongestUnivaluePath = () => {
     return maxLength;
   };
 
+  const longestUnivaluePath3 = (root: TreeNode | null): number => {
+    let maxLength = 0;
+
+    const dfs = (node: TreeNode | null, parent: number | null): number => {
+      if (!node) return 0;
+
+      const left = dfs(node.left, node.val);
+      const right = dfs(node.right, node.val);
+
+      maxLength = Math.max(left + right, maxLength);
+
+      if (node.val === parent) {
+        return Math.max(left + 1, right + 1);
+      }
+      return 0;
+    };
+
+    dfs(root, null);
+
+    return maxLength;
+  };
+
   const handleCalculate = () => {
     try {
       const values = input.split(',').map(val => 
         val.trim() === 'null' ? null : Number(val)
       );
       const tree = buildTree(values);
-      setResult(longestUnivaluePath2(tree));
+      setResult(longestUnivaluePath3(tree));
     } catch (error) {
       console.error('Invalid input');
     }
@@ -108,6 +130,7 @@ const LongestUnivaluePath = () => {
       <p className="text-sm text-gray-600 mb-4">
         1,4,5,4,4,5 = 2
       </p>
+      <p className="text-sm text-gray-600 mb-4">1,1,1,1,1,1,1 = 4</p>
       
       <TextField
         label="Enter tree values (comma-separated)"

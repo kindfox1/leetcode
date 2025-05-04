@@ -47,6 +47,13 @@ const MaximumDepth = () => {
     return Math.max(maxDepth2(root.left), maxDepth2(root.right)) +1;
   };
 
+  const maxDepth3 = (root: TreeNode | null): number => {
+    if (!root) {
+      return 0;
+    }
+    return Math.max(maxDepth3(root.left), maxDepth3(root.right)) + 1;
+  };
+
   const handleCalculate = () => {
     try {
       const values = input.split(',').map(val => 

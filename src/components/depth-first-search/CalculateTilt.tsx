@@ -42,6 +42,18 @@ const CalculateTilt = () => {
   The tilt of a node is the absolute difference between the sum of its left subtree and the sum of its right 
   subtree. If a node has an empty left or subtree, the sum of the empty subtree is 0.
   [5, 1, 3] => 2
+  [4, 2, 7, 1, 3, 6, 9] => 21
+        4
+      /   \
+     2     7
+    / \   / \
+   1   3 6   9
+  - The leaf nodes 1, 3, 6, 9 have tilts of 0 (their left and right subtrees are empty)
+  - Node 2 has a tilt of |1 - 3| = 2
+  - Node 7 has a tilt of |6 - 9| = 3
+  - Node 4 has a tilt of |6 - 22] = 16
+  - 2 + 3 + 16 = 21
+
   */
   const findTilt = (root: TreeNode | null): number => {
     let totalTilt = 0;
@@ -80,13 +92,32 @@ const CalculateTilt = () => {
     return totalTilt;
   };
 
+  const findTilt3 = (root: TreeNode | null): number => {
+    let totalTilt = 0;
+    
+    const dfs = (node: TreeNode | null): number => {
+      if (!node) return 0;
+
+      const leftSum = dfs(node.left);
+      const rightSum = dfs(node.right);
+
+      totalTilt += Math.abs(leftSum - rightSum);
+
+      return leftSum + rightSum + node.val;
+    };
+
+    
+    dfs(root);
+    return totalTilt;
+  };
+
   const handleCalculate = () => {
     try {
       const values = input.split(',').map(val => 
         val.trim() === 'null' ? null : Number(val)
       );
       const tree = buildTree(values);
-      setResult(findTilt(tree));
+      setResult(findTilt3(tree));
     } catch (error) {
       console.error('Invalid input');
     }
@@ -98,8 +129,9 @@ const CalculateTilt = () => {
         Binary Tree Tilt
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 1,2,3
+        Example: 1,2,3 output: 1
       </p>
+      <p className="text-sm text-gray-600 mb-4">[4, 2, 7, 1, 3, 6, 9] output: 21</p>
       <TextField
         label="Enter tree values (comma-separated)"
         variant="outlined"

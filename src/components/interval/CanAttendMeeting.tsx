@@ -34,11 +34,25 @@ const CanAttendMeeting = () => {
     return true;
   };
 
+  const canAttendMeetings3 = (intervals: number[][]): boolean => {
+    //sort intervals
+    intervals.sort((a,b) => a[0] - b[0]);
+    
+    for (let i=1; i< intervals.length; i++) {
+      if (intervals[i][0] < intervals[i-1][1]) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   const handleCheck = () => {
     try {
-      const intervals = input.split(';').map(interval => 
-        interval.split(',').map(Number)
-      );
+      // const intervals = input.split(';').map(interval => 
+      //   interval.split(',').map(Number)
+      // );
+      const intervals = JSON.parse(input);
       setResult(canAttendMeetings(intervals));
       canAttendMeetings2(intervals)
     } catch (error) {
@@ -52,7 +66,8 @@ const CanAttendMeeting = () => {
         Can Attend All Meetings
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 0,30;5,10;15,20 = false; 10,12;6,9;13,15 = true
+        Example: [[0,30],[5,10],[15,20]] = false; [[10,12],[6,9],[13,15]] = true
+        
       </p>
       <TextField
         label="Enter intervals (format: start,end;start,end)"

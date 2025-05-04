@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Typography, Box } from '@mui/material';
 import Heap from 'heap-js';
 
-const ReturnValues = () => {
+const FindTopKFrequent = () => {
   const [input, setInput] = useState('');
   const [k, setK] = useState('');
   const [result, setResult] = useState<number[]>([]);
@@ -14,7 +14,7 @@ const ReturnValues = () => {
     for (const num of nums) {
       frequency.set(num, (frequency.get(num) || 0) + 1);
     }
-    
+
     // Create min heap based on frequency
     const minHeap = new Heap<[number, number]>((a, b) => a[1] - b[1]);
     
@@ -48,7 +48,7 @@ const ReturnValues = () => {
         Top K Frequent Elements
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 1,1,1,2,2,3 k=2
+        1,1,1,2,2,3 k=2 Output [1, 2]
       </p>
       <TextField
         label="Enter numbers (comma-separated)"
@@ -86,4 +86,4 @@ const ReturnValues = () => {
   );
 };
 
-export default ReturnValues;
+export default FindTopKFrequent;

@@ -35,6 +35,24 @@ const NextGreaterElement = () => {
     return result;
   };
 
+  const nextGreaterElement3 = (arr: number[]): number[] => {
+    const stack: number[] = []; // [[value, index] ...]
+    let result = Array(arr.length).fill(-1); 
+
+    for (let i=0; i<arr.length; i++) {
+      while (stack.length > 0 && arr[i] > arr[stack[stack.length-1]]) {
+        let index = stack.pop();
+        if (index !== undefined)
+          result[index] = arr[i];
+      }
+
+      stack.push(i);
+    }
+
+
+    return result;
+  };
+
 
   const nextGreaterElement2 = (arr: number[]): number[] => {
     const stack: number[][] = []; // [[value, index] ...]

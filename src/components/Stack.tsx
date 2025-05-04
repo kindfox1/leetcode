@@ -11,7 +11,7 @@ const Stack = () => {
   return (
     <main className="flex-1 overflow-y-auto bg-gray-100">
       <div className="p-6 max-w-7xl mx-auto space-y-6">
-        <Typography variant="h2" component="h1" gutterBottom>
+        <Typography variant="h4" component="h1" gutterBottom>
           Stack Problems
         </Typography>
         

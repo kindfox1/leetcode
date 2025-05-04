@@ -57,6 +57,16 @@ const PathSum = () => {
       (hasPathSum2(root.right, targetSum  - root.val));
   };
 
+  const hasPathSum3 = (root: TreeNode | null, targetSum: number): boolean => {
+    if (!root) return false;
+
+    if (root.val === targetSum && root.left === null && root.right === null) {
+      return true;
+    }
+
+    return hasPathSum3(root.left, targetSum - root.val) || hasPathSum3(root.right, targetSum - root.val);
+  };
+
   const handleCheck = () => {
     try {
       const values = input.split(',').map(val => 
@@ -65,7 +75,7 @@ const PathSum = () => {
       const tree = buildTree(values);
       const sum = parseInt(targetSum);
       if (!isNaN(sum)) {
-        setResult(hasPathSum(tree, sum));
+        setResult(hasPathSum3(tree, sum));
       }
     } catch (error) {
       console.error('Invalid input');

@@ -28,19 +28,32 @@ const MergeIntervals = () => {
   };
 
   const merge2 = (intervals: number[][]): number[][] => {
-    const result = [];
-    intervals.sort((a, b) => a[0] - b[0]);
-    console.log(intervals);
+    const result: number[][] = [];
+
+    intervals.sort((a,b) => a[0] - b[0]);
+    result.push(intervals[0]);
+    
+    for (let i=1; i<intervals.length; i++) {
+      let currentInterval = intervals[i];
+      let lastMerged = result[result.length - 1];
+
+      if (lastMerged[1] >= currentInterval[0]) { //overlap
+        lastMerged[1] = Math.max(currentInterval[1], lastMerged[1]);
+      } else {  
+        result.push(currentInterval);
+      }
+    }
     
     return result;
   };
 
   const handleMerge = () => {
     try {
-      const intervals = input.split(';').map(interval => 
-        interval.split(',').map(Number)
-      );
-      setResult(merge(intervals));
+      // const intervals = input.split(';').map(interval => 
+      //   interval.split(',').map(Number)
+      // );
+      const intervals = JSON.parse(input);
+      setResult(merge2(intervals));
     } catch (error) {
       console.error('Invalid input format');
     }
@@ -52,9 +65,9 @@ const MergeIntervals = () => {
         Merge Intervals
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 1,3;2,6;8,10;15,18 = [1, 6],[8, 10],[15, 18]
+        [[1,3],[2,6],[8,10],[15,18]] = [1, 6],[8, 10],[15, 18]
       </p>
-      <p className="text-sm text-gray-600 mb-4">Example: 1,5;3,6;8,10;15,18 = [1,6],[8,10],[15,18]</p>
+      <p className="text-sm text-gray-600 mb-4">[[4,6],[11,17],[2,18],[7,10]] = [2,18]</p>
       <TextField
         label="Enter intervals (format: start,end;start,end)"
         variant="outlined"

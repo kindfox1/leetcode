@@ -11,14 +11,16 @@ const LongestValidParentheses = () => {
   ()))) => 2 ; )()()) = 4; ((()()()) = 8; ())(()) = 4;
   */
   const findLongestValidParentheses = (s: string): number => {
-    const stack: number[] = [-1];
+    const stack: number[] = [-1]; // -1 to make calculation easier in the case of "()"" => 1 - (-1) = 2
     let maxLength = 0;
 
     for (let i = 0; i < s.length; i++) {
       if (s[i] === '(') {
-        stack.push(i);
+        stack.push(i); //push unmatch ( index to stack
       } else {
-        stack.pop();
+        stack.pop(); //pop the last unmatch ( to match the closing )
+        // if stack size is 0, This means that this closing parenthesis was unmatched. We'll update the start of the valid substring to 
+        // the current index by pushing the current index onto the stack.
         if (stack.length === 0) {
           stack.push(i);
         } else {
@@ -43,14 +45,74 @@ const LongestValidParentheses = () => {
         if (stack.length === 0) {
           stack.push(i);
         } else {
-          console.log(stack[-1]);
           maxLength = Math.max(maxLength, i - stack[stack.length - 1]);
         }
       }
-
-      console.log(stack);
     }
+  
+    return maxLength;
+  };
 
+  // This is 2 pointer approach, O(2n)
+  const findLongestValidParenthesesTwoPointers = (s: string): number => {
+    console.log('findLongestValidParenthesesTwoPointers');
+    let maxLength = 0;
+  
+    // Left-to-right pass
+    let left = 0, right = 0;
+    for (let i = 0; i < s.length; i++) {
+      if (s[i] === '(') {
+        left++;
+      } else {
+        right++;
+      }
+  
+      if (left === right) {
+        maxLength = Math.max(maxLength, 2 * right);
+      } else if (right > left) {
+        left = 0;
+        right = 0;
+      }
+    }
+  
+    // Right-to-left pass, it will catch edge case like (()
+    left = 0;
+    right = 0;
+    for (let i = s.length - 1; i >= 0; i--) {
+      if (s[i] === ')') {
+        right++;
+      } else {
+        left++;
+      }
+  
+      if (left === right) {
+        maxLength = Math.max(maxLength, 2 * left);
+      } else if (left > right) {
+        left = 0;
+        right = 0;
+      }
+    }
+  
+    return maxLength;
+  };
+
+  const findLongestValidParentheses3 = (s: string): number => {
+    const stack: number[] = [-1];
+    let maxLength = 0;
+
+    for (let i=0; i<s.length; i++) {
+      if (s[i] === '(') {
+        stack.push(i);
+      } else {
+        stack.pop();
+        if (stack.length === 0) {
+          stack.push(i);
+        } else {
+          maxLength = Math.max(maxLength, i - stack[stack.length-1]);
+        }
+
+      }
+    }
   
     return maxLength;
   };
@@ -88,7 +150,7 @@ const LongestValidParentheses = () => {
 
   const handleCalculate = () => {
     //setResult(findLongestValidParentheses(input));
-    setResult(findLongestValidParentheses2(input));
+    setResult(findLongestValidParenthesesTwoPointers(input));
   };
 
   return (
@@ -97,7 +159,7 @@ const LongestValidParentheses = () => {
         Longest Valid Parentheses
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: ")()())" = 4
+        )()()) = 4; ()))) = 2
       </p>
       <TextField
         label="Enter string"

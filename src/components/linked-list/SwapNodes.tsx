@@ -90,13 +90,28 @@ const SwapNodes = () => {
     return dummy.next;
   };
 
+  const revertLinkList = (head: ListNode | null): ListNode | null => {
+    let prev: ListNode | null = null;
+    let curr = head;
+    while (curr) {
+      const next = curr.next;
+      curr.next = prev;
+      prev = curr;
+      curr = next;
+    }
+    console.log(curr);
+    return prev;
+  }
+
   const handleSwap = () => {
     try {
       const nums = input.split(',').map(Number);
       const head = createLinkedList(nums);
-      const swappedHead = swapPairs2(head);
+      // const swappedHead = swapPairs(head);
 
-      setResult(linkedListToArray(swappedHead));
+      // setResult(linkedListToArray(swappedHead));
+
+      revertLinkList(head);
     } catch (error) {
       console.error('Invalid input format');
     }

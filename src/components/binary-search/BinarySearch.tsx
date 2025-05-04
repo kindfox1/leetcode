@@ -25,6 +25,26 @@ const BinSearth = () => {
     return -1;
   };
 
+  const search2 = (nums: number[], target: number): number => {
+    const n = nums.length;
+    
+    let left = 0;
+    let right = n -1;
+
+    while (left < right) {
+      let mid = Math.ceil((left+right)/2);
+      if (nums[mid] === target) {
+        return mid;
+      } else if (nums[mid] < target) { //search right half
+        left = mid + 1;
+      } else {
+        right = mid;
+      }
+    }
+    
+    return -1;
+  };
+
   const handleSearch = () => {
     try {
       const nums = input.split(',').map(Number);

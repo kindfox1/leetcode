@@ -127,7 +127,6 @@ const GraphValidTree = () => {
         }
       }
     }
-  console.log('return no cycle');
     return false;
   }
 

@@ -82,6 +82,72 @@ const CloneGraph = () => {
     return adjList;
   }
 
+  const cloneGraph2 = (node: IntGraphNode): Record<number, number[]> => {
+    const adjList: Record<number, number[]> = {};
+    const visited = new Set();
+    const queue: IntGraphNode[] = [node];
+
+    while (queue.length > 0) {
+      let currentNode = queue.pop()!;
+      visited.add(currentNode.value);
+      adjList[currentNode.value]= currentNode.neighbors.map(n => n.value);
+
+      for (const neighbor of currentNode.neighbors) {
+        if (!visited.has(neighbor.value)) {
+          queue.push(neighbor);
+        }
+      }
+    }
+
+
+    return adjList;
+  };
+
+/**
+ * This is for the LeetCode solution
+ * Definition for _Node.
+ * class _Node {
+ *     val: number
+ *     neighbors: _Node[]
+ * 
+ *     constructor(val?: number, neighbors?: _Node[]) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.neighbors = (neighbors===undefined ? [] : neighbors)
+ *     }
+ * }
+ * 
+ */
+class _Node {
+  val: number
+  neighbors: _Node[]
+  constructor(val?: number, neighbors?: _Node[]) {
+    this.val = (val===undefined ? 0 : val)
+    this.neighbors = (neighbors===undefined ? [] : neighbors)
+  }
+}
+function cloneGraphLeetCode(node: _Node | null): _Node | null {
+  if (!node) return null;
+
+  const visited = new Map<number, _Node>();
+
+  const dfs = (n: _Node): _Node => {
+      if (visited.has(n.val)) {
+          return visited.get(n.val)!;
+      }
+
+      const copy = new _Node(n.val);
+      visited.set(n.val, copy);
+
+      for (const neighbor of n.neighbors) {
+          copy.neighbors.push(dfs(neighbor));
+      }
+
+      return copy;
+  };
+
+  return dfs(node);
+};
+
   const handleClone = () => {
     //test 1
     const node1 = new IntGraphNode(1);
@@ -119,7 +185,7 @@ const CloneGraph = () => {
       // //const cloned = cloneGraph(graph);
       //console.log(JSON.stringify(graph));
 
-      const adj = cloneGraph(n1);
+      const adj = cloneGraph2(n1);
       console.log(JSON.stringify(adj)); // { 1: [2, 3], 2: [1], 3: [1] }
 
       setResult(JSON.stringify(adj));
@@ -134,9 +200,9 @@ const CloneGraph = () => {
         Clone Graph
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: [[1,2],[1,3]]
+        See code and console for output
       </p>
-      <TextField
+      {/* <TextField
         label="Enter adjacency list (format: neighbors;neighbors)"
         variant="outlined"
         fullWidth
@@ -151,7 +217,7 @@ const CloneGraph = () => {
         value={numNodes}
         onChange={(e) => setNumNodes(e.target.value)}
         margin="normal"
-      />
+      /> */}
       <Button 
         variant="contained" 
         color="primary" 

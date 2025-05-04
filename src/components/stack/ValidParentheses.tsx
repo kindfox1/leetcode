@@ -45,8 +45,29 @@ const ValidParentheses = () => {
     return stack.length === 0;
   };
 
+  const isValid3 = (s: string): boolean => {
+    const stack: string[] = [];
+    const pairs: { [key: string]: string } = {
+      ')': '(',
+      '}': '{',
+      ']': '['
+    };
+
+    for (let i=0; i<s.length; i++) {
+      if (pairs[s[i]]) {
+        if (stack.pop() !== pairs[s[i]]) {
+          return false;
+        }
+      } else {
+        stack.push(s[i]);
+      }
+    }
+
+    return stack.length === 0;
+  };
+
   const handleCheck = () => {
-    setResult(isValid(input));
+    setResult(isValid3(input));
   };
 
   return (

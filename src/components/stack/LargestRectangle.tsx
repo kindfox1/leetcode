@@ -18,18 +18,9 @@ const LargestRectangle = () => {
         i++;
       } else {
         const top = stack.pop()!;
-        console.log('popped stack, stack=', JSON.stringify(stack));
-        
         const width = stack.length === 0 ? i : i - stack[stack.length - 1] - 1;
-
-        console.log('height=', heights[top]);
-        console.log('width=', width);
-        console.log('i=', i);
         maxArea = Math.max(maxArea, heights[top] * width);
-        console.log('maxArea', maxArea);
       }
-
-      console.log('stack:', JSON.stringify(stack));
     }
 
     return maxArea;
@@ -72,13 +63,14 @@ const LargestRectangle = () => {
   // }
 
   const handleCalculate = () => {
-    const heights = input.split(',').map(Number);
+    //const heights = input.split(',').map(Number);
+    const heights = JSON.parse(input);
     setResult(largestRectangleArea(heights));
-    largestRectangleArea2(heights)
+    //largestRectangleArea2(heights)
   };
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
+    <div className="bg-white rounded-lg shadow p-6 hard">
       <Typography variant="h6" gutterBottom>
         Largest Rectangle in Histogram
       </Typography>

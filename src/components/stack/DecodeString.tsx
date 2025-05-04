@@ -25,6 +25,7 @@ const DecodeString = () => {
         stack.push(currentString);
         currentNumber = 0;
         currentString = '';
+        console.log(stack);
       } else if (char === ']') {
         const prevString = stack.pop() as string;
         const num = stack.pop() as number;
@@ -37,30 +38,30 @@ const DecodeString = () => {
     return currentString;
   };
 
+  // 3[a]2[bc]
   const decodeString2 = (s: string): string => {
     const stack: (string | number)[] = [];
-    let currentString = '';
-    let currentNumber = 0;
+    let currentString: string = '';
+    let currentNumber: number = 0;
 
     for (let i=0; i<s.length; i++) {
-      
-      const char = s[i];
-      if (char ==='[') {
+      let char = s[0];
+      if (char >= "0" && char <= "9") {
+        currentNumber = currentNumber * 10 + Number(char);
+      } else if (char === '[') {
         stack.push(currentNumber);
         stack.push(currentString);
-        currentString = '';
         currentNumber = 0;
+        currentString = '';
       } else if (char === ']') {
-        const prevChar = stack.pop() as string;
-        const prevNum = stack.pop() as number;
-        currentString = prevChar + currentString.repeat(prevNum);
-      } else if (isNumber(char)) {
-        currentNumber = 10 * currentNumber + Number(char);
-      } else {
-        currentString += char;
+        const prevString = stack.pop() as string;
+        const prevNumber = stack.pop() as number;
+        currentString = prevString + currentString.repeat(prevNumber);
+      } else { // character
+        currentString = currentString + char;
       }
-      console.log(stack);
     }
+    
 
     return currentString;
   };
@@ -75,8 +76,9 @@ const DecodeString = () => {
         Decode String
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: "3[a]2[bc]" = "aaabcbc"
+        3[a]2[bc] = aaabcbc
       </p>
+      <p className="text-sm text-gray-600 mb-4">3[a2[c]] = accaccacc</p>
       <TextField
         label="Enter encoded string"
         variant="outlined"

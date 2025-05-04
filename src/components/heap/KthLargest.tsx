@@ -40,12 +40,30 @@ const KthLargest = () => {
     return minHeap.peek() as number;
   };
 
+
+  // This used MaxHeap, but MinHeap can do the job better, just keep the size of the minHeap to K, pop if it is greater than K
+  const findKthLargest3 = (nums: number[], k: number): number => {
+    const size = nums.length;
+    const minHeap = new MinHeap();
+
+    for (let i=0; i<size; i++) {
+      minHeap.insert(-nums[i]);
+    }
+    for (let j=0; j < k-1; j++) {
+      minHeap.pop();
+    }
+    console.log(minHeap.peek());
+    return minHeap.peek()! * -1;
+    
+    
+  };
   const handleCalculate = () => {
     try {
-      const nums = input.split(',').map(Number);
+      //const nums = input.split(',').map(Number);
+      const nums = JSON.parse(input);
       const kNum = parseInt(k);
       if (!isNaN(kNum) && kNum > 0) {
-        setResult(findKthLargest2(nums, kNum));
+        setResult(findKthLargest3(nums, kNum));
       }
     } catch (error) {
       console.error('Invalid input');

@@ -7,11 +7,26 @@ interface Edge {
   weight: number;
 }
 
-const Graphs = () => {
+const MinSpanningTree = () => {
   const [vertices, setVertices] = useState('');
   const [edges, setEdges] = useState('');
   const [result, setResult] = useState<number | null>(null);
 
+  /*
+  n=4 and edges=[[0,1,10],[1,2,6],[2,3,4],[0,2,6],[0,3,5]]
+  output = 15
+           5
+      0 ------- 3
+                |
+                | 4
+                |
+                2
+                |
+                | 6
+                |
+                1
+
+  */
   const findMinimumSpanningTree = (n: number, edges: [number, number, number][]): number => {
     // Create adjacency list
     const graph = new Map<number, Edge[]>();
@@ -27,7 +42,7 @@ const Graphs = () => {
     
     // Prim's algorithm
     const visited = new Set<number>();
-    const minHeap = new Heap<[number, number]>((a, b) => a[1] - b[1]); // [vertex, weight]
+    const minHeap = new Heap<[number, number]>((a, b) => a[1] - b[1]); // [vertex, weight] sorted by the weight
     let totalWeight = 0;
     
     // Start from vertex 0
@@ -55,9 +70,10 @@ const Graphs = () => {
   const handleCalculate = () => {
     try {
       const n = parseInt(vertices);
-      const edgeList = edges.split(';').map(edge => 
-        edge.split(',').map(Number) as [number, number, number]
-      );
+      // const edgeList = edges.split(';').map(edge => 
+      //   edge.split(',').map(Number) as [number, number, number]
+      // );
+      const edgeList = JSON.parse(edges);
       setResult(findMinimumSpanningTree(n, edgeList));
     } catch (error) {
       console.error('Invalid input');
@@ -70,7 +86,7 @@ const Graphs = () => {
         Minimum Spanning Tree
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: Vertices: 4, Edges: 0,1,10;1,2,6;2,3,4;0,2,6;0,3,5
+        Vertices: 4, Edges: [[0,1,10],[1,2,6],[2,3,4],[0,2,6],[0,3,5]], output: 15
       </p>
       <TextField
         label="Enter number of vertices"
@@ -110,4 +126,4 @@ const Graphs = () => {
   );
 };
 
-export default Graphs;
+export default MinSpanningTree;

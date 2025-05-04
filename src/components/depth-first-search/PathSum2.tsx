@@ -81,27 +81,31 @@ const PathSum2 = () => {
       }
       dfs(node.left, targetSum - node.val, newPath);
       dfs(node.right, targetSum - node.val, newPath);
-
-
-      // if (node.val === targetSum) {
-      //   newPath.push(node.val);
-      //   result.push(newPath);
-      //   console.log('match, path=', newPath);
-      //   console.log('match, result=', result);
-      // } else if (node.val > targetSum) {
-      //   return;
-      // } else if (node.val < targetSum) {
-        
-      //   newPath.push(node.val);
-      //   console.log('no match, path', newPath);
-      //   dfs(node.left, targetSum - node.val, newPath);
-      //   dfs(node.right, targetSum - node.val, newPath);
-        
-      // }
     };
     
     dfs(root, targetSum, []);
 
+    return result;
+  };
+
+  const pathSum3 = (root: TreeNode | null, targetSum: number): number[][] => {
+    const result: number[][] = [];
+
+    const dfs = (node: TreeNode | null, target: number, path: number[]) => {
+      if(!node) return;
+
+      const newPath = [...path, node.val];
+
+      if (!node.left && !node.right && target-node.val === 0) {
+        result.push(newPath);
+        return;
+      }
+
+      dfs(node.left, target - node.val, newPath);
+      dfs(node.right, target - node.val, newPath);
+    };
+
+    dfs(root, targetSum, []);
     return result;
   };
 
@@ -113,7 +117,7 @@ const PathSum2 = () => {
       const tree = buildTree(values);
       const sum = parseInt(targetSum);
       if (!isNaN(sum)) {
-        setResult(pathSum2(tree, sum));
+        setResult(pathSum3(tree, sum));
       }
     } catch (error) {
       console.error('Invalid input');
@@ -126,7 +130,10 @@ const PathSum2 = () => {
         Path Sum II
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 5,4,8,11,null,13,4,7,2,null,null,5,1
+        5,4,8,11,null,13,4,7,2,null,null,5,1 target=27; [5,4,11,7]
+      </p>
+      <p className="text-sm text-gray-600 mb-4">
+        1,2,4,4,7,5,1 target=10, [[1,2,7][1,4,5]]
       </p>
       <TextField
         label="Enter tree values (comma-separated)"

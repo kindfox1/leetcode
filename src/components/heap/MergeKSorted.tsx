@@ -60,15 +60,38 @@ const MergeKSorted = () => {
     return result;
   };
 
-  const handleMerge = () => {
-    try {
-      const listArray = lists.split(';').map(list => 
-        list.split(',').map(Number)
-      );
-      setResult(mergeKLists(listArray));
-    } catch (error) {
-      console.error('Invalid input');
+  const mergeKLists3 = (lists: number[][]): number[] => {
+    const result: number[] = [];
+    const minHeap = new Heap<[number, number, number]>((a, b) => a[0] - b[0]);
+
+    for (let i=0; i<lists.length; i++) {
+      minHeap.push([lists[i][0], i, 0]);
     }
+
+
+    while (minHeap.size()) {
+      //console.log(minHeap.size(), minHeap.length);
+      const [val, listIndex, elmIndex] = minHeap.pop()!;
+      result.push(val);
+
+      if (elmIndex + 1 < lists[listIndex].length) {
+        minHeap.push([lists[listIndex][elmIndex], listIndex, elmIndex+1]);
+      }
+    }
+
+    return result;
+  };
+
+  const handleMerge = () => {
+    //try {
+      // const listArray = lists.split(';').map(list => 
+      //   list.split(',').map(Number)
+      // );
+      const listArray = JSON.parse(lists);
+      setResult(mergeKLists3(listArray));
+    // } catch (error) {
+    //   console.error('Invalid input');
+    // }
   };
 
   return (
@@ -77,8 +100,9 @@ const MergeKSorted = () => {
         Merge K Sorted Lists
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 1,4,5;1,3,4;2,6
+      [[1,4,5],[1,3,4],[2,6]] ouput: [1, 1, 2, 3, 4, 4, 5, 6]
       </p>
+      <p className="text-sm text-gray-600 mb-4">[[3,4,6],[2,3,5],[-1,6]] ouput: [-1, 2, 3, 3, 4, 5, 6, 6]</p>
       <TextField
         label="Enter sorted lists (format: 1,2,3;4,5,6;7,8,9)"
         variant="outlined"

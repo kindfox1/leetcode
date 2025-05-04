@@ -25,7 +25,7 @@ function App() {
       <div className="flex h-screen bg-gray-100">
         <Sidebar />
         <div className="flex-1 flex flex-col overflow-hidden">
-          <Header />
+          {/* <Header /> */}
           <div className="flex-1 overflow-y-auto">
             <Routes>
               <Route path="/" element={<TwoPointers />} />

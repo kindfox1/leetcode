@@ -5,6 +5,12 @@ const EmployeeFreeTime = () => {
   const [input, setInput] = useState('');
   const [result, setResult] = useState<number[][]>([]);
 
+  /*
+  Write a function to find the common free time for all employees from a list called schedule. Each employee's schedule is represented by a 
+  list of non-overlapping intervals sorted by start times. The function should return a list of finite, non-zero length intervals where all 
+  employees are free, also sorted in order.
+  [[[2,4],[7,10]],[[1,5]],[[6,9]]] ouput: [[5,6]]
+  */
   const findEmployeeFreeTime = (schedule: number[][][]): number[][] => {
     console.log('schedule', schedule);
     // Flatten and sort all intervals
@@ -52,6 +58,43 @@ console.log('result', result);
     return result;
   };
 
+  const findEmployeeFreeTime3 = (schedule: number[][][]): number[][] => {
+    let merged: number[][] = [];
+    let flatten: number[][] = [];
+    let result: number[][] = [];
+
+    // flat the array to 2 dimentional array
+    for (let i=0; i< schedule.length; i++) {
+      flatten = [...flatten, ...schedule[i]];
+    }
+
+    flatten.sort((a, b) => a[0] - b[0]);
+
+    // merge all flatten intervals
+    merged.push(flatten[0]);
+    for (let i=1; i<flatten.length; i++) {
+      let current = flatten[i];
+      let prev = merged[merged.length-1];
+
+      if (prev[1] >= current[0]) {
+        prev[1] = Math.max(prev[1], current[1]);
+      } else {
+        merged.push(current);
+      }
+    }
+
+    if (merged.length === 1) {
+      return result;
+    }
+
+    // find the gap
+    for (let j = 1; j < merged.length; j++) {
+      result.push([merged[j-1][1], merged[j][0]]);
+    }
+
+    return result;
+  };
+
   const handleCalculate = () => {
     try {
       // Parse input format: [[1,2],[5,6]];[[1,3],[4,10]]
@@ -64,7 +107,7 @@ console.log('result', result);
       //const schedule = [[[2,4],[7,10]],[[1,5]],[[6,9]]];
       const schedule = JSON.parse(input);
       //setResult(findEmployeeFreeTime(schedule));
-      setResult(findEmployeeFreeTime2(schedule));
+      setResult(findEmployeeFreeTime3(schedule));
     } catch (error) {
       console.error('Invalid input format');
     }

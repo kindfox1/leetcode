@@ -38,9 +38,8 @@ const GoodNodes = () => {
     return root;
   };
 
+  // A good node is defined as a node that is greater than or equal to all the nodes along the path from the root to that node
   const countGoodNodes = (root: TreeNode | null, maxVal: number): number => {
-    console.log('==== root ====', root? root.val: 'null');
-
     if (!root) return 0;
 
     let count = 0;
@@ -58,6 +57,19 @@ const GoodNodes = () => {
     return leftCount + rightCount + count;
   };
 
+  const countGoodNodes2 = (root: TreeNode | null, maxVal: number): number => {
+    if (!root) return 0;
+    
+    let count = 0;
+
+    if (root.val >= maxVal) {
+      maxVal = root.val;
+      count = 1;
+    }
+
+    return countGoodNodes2(root.left, maxVal) + countGoodNodes2(root.right, maxVal) + count;
+  };
+
 
   const handleCalculate = () => {
     try {
@@ -65,7 +77,7 @@ const GoodNodes = () => {
         val.trim() === 'null' ? null : Number(val)
       );
       const tree = buildTree(values);
-      setResult(countGoodNodes(tree, -Infinity));
+      setResult(countGoodNodes2(tree, -Infinity));
     } catch (error) {
       console.error('Invalid input');
     }
@@ -74,10 +86,11 @@ const GoodNodes = () => {
   return (
     <div className="bg-white rounded-lg shadow p-6">
       <Typography variant="h6" gutterBottom>
-        Count Good Nodes
+        Count Good Nodes 
       </Typography>
+      <p>A good node is defined as a node that is greater than or equal to all the nodes along the path from the root to that node</p>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 4, 2, 7, 1, 3, 6, 9 output: 3
+        4, 2, 7, 1, 3, 6, 9 output: 3 e.g. [4,7,9]
       </p>
       <TextField
         label="Enter tree values (comma-separated)"
@@ -100,9 +113,9 @@ const GoodNodes = () => {
           <Typography variant="h6">
             Good nodes count: {result}
           </Typography>
-          <Typography variant="h6">
+          {/* <Typography variant="h6">
             Good nodes: {JSON.stringify(nodes)}
-          </Typography>
+          </Typography> */}
           
         </Box>
       )}

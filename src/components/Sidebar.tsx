@@ -37,10 +37,6 @@ export default function Sidebar() {
 
   return (
     <aside className="w-64 bg-indigo-700 text-white">
-      <div className="p-6">
-        <h1 className="text-2xl font-bold">Algorithm Patterns</h1>
-      </div>
-      
       <nav className="mt-6">
         <div className="px-4 space-y-1">
           {menuItems.map((item) => (

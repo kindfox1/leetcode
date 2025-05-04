@@ -9,9 +9,7 @@ import PathSum2 from './depth-first-search/PathSum2';
 import LongestUnivaluePath from './depth-first-search/LongestUnivaluePath';
 import AdjacencyList from './depth-first-search/AdjacencyList';
 import CopyGraph from './depth-first-search/CopyGraph';
-import ReturnValues from './depth-first-search/ReturnValues';
-import PassingValues from './depth-first-search/PassingValues';
-import Graphs from './depth-first-search/Graphs';
+import MinSpanningTree from './depth-first-search/MinSpanningTree';
 import Matrices from './depth-first-search/Matrices';
 import FloodFill from './depth-first-search/FloodFill';
 import NumberOfIslands from './depth-first-search/NumberOfIslands';
@@ -28,7 +26,9 @@ const DepthFirstSearch = () => {
         <Typography variant="h2" component="h1" gutterBottom>
           Depth-First Search Problems
         </Typography>
-        
+        <Typography variant="h4" component="h2" gutterBottom>
+          Binary Tree
+        </Typography>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <MaximumDepth />
           <PathSum />
@@ -38,13 +38,15 @@ const DepthFirstSearch = () => {
           <TreeDiameter />
           <PathSum2 />
           <LongestUnivaluePath />
+        </div>
+        <Typography variant="h4" component="h2" gutterBottom>
+          Graph
+        </Typography>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <AdjacencyList />
           <CloneGraph />
           <GraphValidTree />
-          {/* <CopyGraph /> */}
-          <ReturnValues />
-          <PassingValues />
-          <Graphs />
+          <MinSpanningTree />
           <Matrices />
           <FloodFill />
           <NumberOfIslands />

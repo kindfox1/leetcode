@@ -15,10 +15,11 @@ const AdjacencyList = () => {
       graph.get(u)!.push(v);
       graph.get(v)!.push(u);
     }
-    console.log(graph);
+    console.log('graph', graph);
     return graph;
   };
 
+  // traverse the graph
   const dfs = (graph: Map<number, number[]>, start: number): string[] => {
     const visited = new Set<number>();
     const path: string[] = [];
@@ -42,7 +43,7 @@ const AdjacencyList = () => {
   const buildAdjList = (n: number, edges: number[][]): Record<number, number[]> => {
     const adjList: Record<number, number[]> = {};
     
-  
+  console.log('edges', edges);
     for (let i = 0; i < n; i++) {
       adjList[i] = [];
     }
@@ -55,6 +56,7 @@ const AdjacencyList = () => {
     return adjList;
   };
 
+  // traverse graph in adjacency list
   function dfs2(adjList: Record<number, number[]>): string[] {
     if (!adjList) return [];
     const path: string[] = [];
@@ -67,8 +69,10 @@ const AdjacencyList = () => {
       visited.add(node);
       path.push(`Visit node ${node}`);
       for (const neighbor of adjList[node]) {
-        path.push(`Edge ${node} -> ${neighbor}`);
-        dfsHelper(neighbor);
+        if (!visited.has(neighbor)) {
+          path.push(`Edge ${node} -> ${neighbor}`);
+          dfsHelper(neighbor);
+        }
       }
     }
   
@@ -101,7 +105,7 @@ const AdjacencyList = () => {
         DFS on Adjacency List
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 0,1;1,2;2,0
+        Example: [[0,1],[1,2],[2,0]]
       </p>
       <TextField
         label="Enter edges (format: from,to;from,to)"

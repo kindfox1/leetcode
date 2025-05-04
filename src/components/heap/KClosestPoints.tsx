@@ -22,7 +22,7 @@ const KClosestPoints = () => {
     const maxHeap = new Heap((a: number[], b: number[]) => {
       const distA = a[0] * a[0] + a[1] * a[1];
       const distB = b[0] * b[0] + b[1] * b[1];
-      return distB - distA;
+      return distB - distA; // use Max Heap
     });
     
     for (const point of points) {
@@ -53,8 +53,10 @@ const KClosestPoints = () => {
         K Closest Points to Origin
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 1,3;-2,2 k=1
+        [[1,3],[-2,2]] k=1, output: [[-2,2]]
       </p>
+      <p className="text-sm text-gray-600 mb-4">[[3,4],[2,2],[1,1],[0,0],[5,5]] k=3, output: [[2,2],[1,1],[0,0]]</p>
+
       <TextField
         label="Enter points (format: x,y;x,y)"
         variant="outlined"

@@ -5,6 +5,8 @@ const NonOverlappingIntervals = () => {
   const [input, setInput] = useState('');
   const [result, setResult] = useState<number | null>(null);
 
+
+  // This one is easier to understand.
   const eraseOverlapIntervals = (intervals: number[][]): number => {
     if (intervals.length <= 1) return 0;
     
@@ -15,9 +17,9 @@ const NonOverlappingIntervals = () => {
     let prevEnd = intervals[0][1];
     
     for (let i = 1; i < intervals.length; i++) {
-      if (intervals[i][0] < prevEnd) {
+      if (intervals[i][0] < prevEnd) { // overlapping
         count++;
-      } else {
+      } else { // because the intervals was sorted by end time, the next interval end always greater than the prev one,
         prevEnd = intervals[i][1];
       }
     }
@@ -60,6 +62,26 @@ const NonOverlappingIntervals = () => {
     return n - count;
   };
 
+  const eraseOverlapIntervals4 = (intervals: number[][]): number => {
+    intervals.sort((a, b) => a[1] - b[1]);
+    let count = 0;
+    let n = intervals.length;
+    let i = 1;
+    console.log(intervals);
+    let end = intervals[0][1];
+
+    while (i < n) {
+      if (intervals[i][0] >= end) {
+        count++;
+        end = intervals[i][1];
+      }
+      i++;
+    }
+
+    return n - count;
+
+  };
+
   const handleCalculate = () => {
     try {
       // const intervals = input.split(';').map(interval => 
@@ -70,11 +92,12 @@ const NonOverlappingIntervals = () => {
     } catch (error) {
       console.error('Invalid input format');
     }
-    const intervals = input.split(';').map(interval => 
-        interval.split(',').map(Number)
-      );
+    // const intervals = input.split(';').map(interval => 
+    //     interval.split(',').map(Number)
+    //   );
+      const intervals = JSON.parse(input);
       //setResult(eraseOverlapIntervals(intervals));
-      setResult(eraseOverlapIntervals3(intervals));
+      setResult(eraseOverlapIntervals4(intervals));
   };
 
   return (
@@ -83,9 +106,9 @@ const NonOverlappingIntervals = () => {
         Non-overlapping Intervals
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 1,2;2,3;3,4;1,3 output: 1
+        [[1,3],[5,8],[4,10],[11,13]] Output: 1
       </p>
-      <p className="text-sm text-gray-600 mb-4">Example: 4,6;11,17;2,18;7,10 Output: 1</p>
+      <p className="text-sm text-gray-600 mb-4">Example: [[4,6],[11,17],[2,18],[7,10]] Output: 1</p>
       <TextField
         label="Enter intervals (format: start,end;start,end)"
         variant="outlined"

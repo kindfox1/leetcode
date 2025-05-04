@@ -25,13 +25,36 @@ const FindKClosest = () => {
     return maxHeap.toArray().sort((a, b) => a - b);
   };
 
+
+  // use max heap instead of Maxheap
+  const findClosestElements2 = (arr: number[], k: number, x: number): number[] => {
+    // min heap
+    const minHeap = new Heap<number>((a: number, b: number) => {
+      const diffA = Math.abs(a -x);
+      const diffB = Math.abs(b -x);
+
+      return diffB - diffA; 
+    });
+
+    for (let i=0; i<arr.length; i++) {
+      minHeap.push(arr[i]);
+
+      if (minHeap.length > k) {
+        minHeap.pop();
+      }
+    }
+    console.log(result);
+    return minHeap.toArray().sort();
+  }
+
   const handleCalculate = () => {
     try {
-      const nums = numbers.split(',').map(Number);
+      //const nums = numbers.split(',').map(Number);
+      const nums = JSON.parse(numbers);
       const kNum = parseInt(k);
       const targetNum = parseInt(target);
       if (!isNaN(kNum) && kNum > 0 && !isNaN(targetNum)) {
-        setResult(findClosestElements(nums, kNum, targetNum));
+        setResult(findClosestElements2(nums, kNum, targetNum));
       }
     } catch (error) {
       console.error('Invalid input');
@@ -41,10 +64,13 @@ const FindKClosest = () => {
   return (
     <div className="bg-white rounded-lg shadow p-6">
       <Typography variant="h6" gutterBottom>
-        Find K Closest ElementsXXX
+        Find K Closest Elements
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 1,2,3,4,5 k=4 x=3
+        [1,2,3,4,5] k=4 x=3, output: [1, 2, 3, 4]
+      </p>
+      <p className="text-sm text-gray-600 mb-4">
+        [-1, 0, 1, 4, 6] k=3 x=1, output: [-1, 0, 1]
       </p>
       <TextField
         label="Enter numbers (comma-separated)"

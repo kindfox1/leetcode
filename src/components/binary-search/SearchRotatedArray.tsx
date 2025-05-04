@@ -69,11 +69,37 @@ const SearchRotatedArray = () => {
     return -1;
   };
 
+  const search3 = (nums: number[], target: number): number => {
+    let left = 0;
+    let right = nums.length - 1;
+
+    while (left <= right) {
+      let mid = Math.floor((left+right)/2);
+      if (nums[mid]===target) {
+        return mid;
+      } else if (nums[mid] > nums[right]) { //sorted array on left
+        if (nums[mid] > target && nums[left] <= target) { //target on left
+          right = mid - 1;
+        } else {// target on right
+          left = mid + 1;
+        }
+      } else { // sorted array on right
+        if (nums[mid] < target && nums[right] >= target) { //target on right
+          left = mid + 1;
+        } else {// target on right
+          right = mid - 1;
+        }
+      }
+    }
+  
+    return -1;
+  };
+
   const handleSearch = () => {
     try {
       const nums = input.split(',').map(Number);
       const targetNum = parseInt(target);
-      setResult(search2(nums, targetNum));
+      setResult(search3(nums, targetNum));
     } catch (error) {
       console.error('Invalid input format');
     }
