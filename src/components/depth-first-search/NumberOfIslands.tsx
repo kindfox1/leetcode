@@ -79,16 +79,98 @@ const NumberOfIslands = () => {
     return count;
   };
 
-  const handleCalculate = () => {
-    try {
-      // const grid = input.split(';').map(row => 
-      //   row.split(',')
-      // );
-      const grid = JSON.parse(input);
-      setResult(numIslands2(grid));
-    } catch (error) {
-      console.error('Invalid input');
+  const numIslands3 = (grid: number[][]): number => {
+    let count = 0;
+    const rows = grid.length;
+    const cols = grid[0].length;
+
+    const dfs = (r: number, c: number) => {
+      if (r<0 || c<0 || r>=rows || c>=cols) return;
+
+      if (grid[r][c] !== 1) return;
+      // if (grid[r][c] === 1) {
+      //   grid[r][c] = -1;
+      // }
+      grid[r][c] = -1; //mark as visited
+      dfs(r-1, c);
+      dfs(r+1, c);
+      dfs(r, c-1);
+      dfs(r, c+1);
+    };
+
+    for (let i=0; i<rows; i++) {
+      for (let j=0; j<cols; j++) {
+        if (grid[i][j] === 1) {
+          count++;
+          dfs(i,j);
+        }
+
+      }
     }
+console.log(count);
+    return count;
+  };
+
+
+  // use queue to perform non-recursive solution.
+  const numIslandsIterative = (grid: number[][]): number => {
+    if (!grid.length) return 0;
+  
+    const rows = grid.length;
+    const cols = grid[0].length;
+    let count = 0;
+  
+    const directions = [
+      [0, 1],  // right
+      [0, -1], // left
+      [1, 0],  // down
+      [-1, 0], // up
+    ];
+  
+    const bfs = (row: number, col: number) => {
+      const queue: [number, number][] = [[row, col]];
+      grid[row][col] = 9; // Mark as visited
+  
+      while (queue.length > 0) {
+        const [r, c] = queue.shift()!;
+  
+        for (const [dr, dc] of directions) {
+          const newRow = r + dr;
+          const newCol = c + dc;
+  
+          if (
+            newRow >= 0 &&
+            newRow < rows &&
+            newCol >= 0 &&
+            newCol < cols &&
+            grid[newRow][newCol] === 1
+          ) {
+            grid[newRow][newCol] = 9; // Mark as visited
+            queue.push([newRow, newCol]);
+          }
+        }
+      }
+    };
+  
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < cols; j++) {
+        if (grid[i][j] === 1) {
+          count++;
+          bfs(i, j); // Perform BFS to mark the entire island
+        }
+      }
+    }
+  
+    return count;
+  };
+
+  const handleCalculate = () => {
+    //try {
+      const grid = JSON.parse(input);
+      setResult(numIslands3(grid));
+    // } catch (error) {
+    //   console.error('Invalid input');
+    // }
   };
 
   return (
@@ -96,9 +178,6 @@ const NumberOfIslands = () => {
       <Typography variant="h6" gutterBottom>
         Number of Islands
       </Typography>
-      <p className="text-sm text-gray-600 mb-4">
-        Example: 1,1,0;1,1,0;0,0,1
-      </p>
       <p className="text-sm text-gray-600 mb-4">[[1,1,0],[1,1,0],[0,0,1]]; output = 2</p>
       <p className="text-sm text-gray-600 mb-4">[[1, 1, 0, 1],[1, 1, 0, 1],[1, 1, 0, 0]] output = 2</p>
       <p className="text-sm text-gray-600 mb-4">[[0, 0, 0, 1],[0, 0, 0, 1],[0, 0, 0, 0]] output = 1</p>

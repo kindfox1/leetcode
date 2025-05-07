@@ -33,12 +33,14 @@ const MinSpanningTree = () => {
     for (let i = 0; i < n; i++) {
       graph.set(i, []);
     }
-    
+    console.log('graph', graph);
     // Add edges to graph
     for (const [from, to, weight] of edges) {
       graph.get(from)!.push({ to, weight });
       graph.get(to)!.push({ to: from, weight });
     }
+
+    
     
     // Prim's algorithm
     const visited = new Set<number>();
@@ -67,14 +69,59 @@ const MinSpanningTree = () => {
     return visited.size === n ? totalWeight : -1;
   };
 
+  const findMinimumSpanningTree2 = (n: number, edges: [number, number, number][]): number => {
+    const graph = new Map<number, [number, number][]>(); // {fromVertex: [toVertex, weight]}
+    //const minHeap = new Heap((a: [number, number], b: [number, number]) => a[1] - b[1]);
+    const minHeap = new Heap<[number, number]>((a, b) => a[1] - b[1]); 
+    const visited = new Set<number>();
+    let totalWeight = 0;
+
+    // create a graph with edges
+    for (let i=0; i<n; i++) {
+      graph.set(i, []);
+    }
+
+    console.log(graph);
+
+    // fill the graph and adjacency list
+    for (const [from, to, weight] of edges) {
+      if (graph.get(from)) {
+        graph.get(from)!.push([to, weight]);
+        graph.get(to)!.push([from, weight]);
+      }
+    }
+
+    //prim's algorithm
+    minHeap.push([0,0]);
+console.log(minHeap.length);
+    while (visited.size < n && minHeap.length > 0) {
+      console.log('======= while ========');
+      const [vertex, weight] = minHeap.pop()!;
+      if (visited.has(vertex)) continue;
+      totalWeight += weight;
+      visited.add(vertex);
+
+      console.log('vertex', vertex);
+      console.log('weight', weight);
+      console.log('graph.get(vertex)', graph.get(vertex));
+
+      for (const neighbor of graph.get(vertex)!) {
+        console.log('neighbor', neighbor);
+        if (!visited.has(neighbor[0])) { // make sure to is not visited
+          console.log('pushing nei', neighbor);
+          minHeap.push(neighbor);
+        }
+      }
+    }
+
+    return visited.size===n ? totalWeight : -1;
+  };
+
   const handleCalculate = () => {
     try {
       const n = parseInt(vertices);
-      // const edgeList = edges.split(';').map(edge => 
-      //   edge.split(',').map(Number) as [number, number, number]
-      // );
       const edgeList = JSON.parse(edges);
-      setResult(findMinimumSpanningTree(n, edgeList));
+      setResult(findMinimumSpanningTree2(n, edgeList));
     } catch (error) {
       console.error('Invalid input');
     }

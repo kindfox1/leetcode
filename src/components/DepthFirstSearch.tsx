@@ -47,6 +47,11 @@ const DepthFirstSearch = () => {
           <CloneGraph />
           <GraphValidTree />
           <MinSpanningTree />
+        </div>
+        <Typography variant="h4" component="h2" gutterBottom>
+          Matrix
+        </Typography>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <Matrices />
           <FloodFill />
           <NumberOfIslands />

@@ -97,6 +97,76 @@ const PathSum = () => {
     return result;
   }
 
+  //hellointerview this is the proper way for backtracking technic
+  function pathSumHi(root: TreeNode | null, target: number): number[][] {
+    const result: number[][] = [];
+  
+    function backtrack(node: TreeNode | null, path: number[], total: number): void {
+      if (!node) return;
+  
+      path.push(node.val);
+      total += node.val;
+  
+      // If current sum exceeds target, backtrack
+      if (total > target) {
+        path.pop();
+        return;
+      }
+  
+      if (!node.left && !node.right) {
+        if (total === target) {
+          result.push([...path]); // Make a copy of the path
+        }
+      } else {
+        backtrack(node.left, path, total);
+        backtrack(node.right, path, total);
+      }
+  
+      // Backtrack: remove current node
+      path.pop();
+    }
+  
+    backtrack(root, [], 0);
+    return result;
+  }
+
+  const pathSum2 = (tree: TreeNode | null, target: number): number[][] => {
+    const result :number[][] = [];
+    if (!tree) return result;
+
+    const backtracking = (node: TreeNode, path: number[], remain: number) => {
+      if (!node) return;
+      
+      const newPath = [...path, node.val];
+
+      if (node.val > remain) {
+        //path.pop();
+        return;
+      }
+
+      if (!node.left && !node.right) {
+        if (remain === node.val) {
+          result.push(newPath);
+        } else {
+          path.pop();
+        }
+      } else {
+        //path.push(node.val);
+
+        if (node.left) backtracking(node.left, newPath, remain - node.val);
+        if (node.right) backtracking(node.right, newPath, remain - node.val);
+
+      }
+
+    };
+
+    backtracking(tree, [], target);
+
+
+
+    return result;
+  }
+
   const handleCheck = () => {
     try {
       const values = input.split(',').map(val => 
@@ -105,7 +175,7 @@ const PathSum = () => {
       const tree = buildTree(values);
       const sum = parseInt(targetSum);
 
-        setResult(JSON.stringify(pathSum(tree, sum)));
+        setResult(JSON.stringify(pathSumHi(tree, sum)));
     } catch (error) {
       console.error('Invalid input');
     }

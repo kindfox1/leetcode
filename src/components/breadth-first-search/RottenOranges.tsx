@@ -68,6 +68,8 @@ const RottenOranges = () => {
 
     while (rotten.length > 0 && freshNum > 0) {
       const size = rotten.length;
+      console.log("= while ================", size);
+      console.log(size, freshNum);
       
       for (let i=0; i<size; i++) { //the size could change every while loop
         const [x, y] = rotten.shift()!;
@@ -97,9 +99,61 @@ const RottenOranges = () => {
       }
       
       time++;
+      console.log('time=',time);
     }
     
     return freshNum === 0 ? time : -1; 
+  };
+
+  const orangesRotting3 = (grid: number[][]): number => {
+    if (!grid || !grid.length) return -1;
+    let time = 0;
+    const queue: number[][] = [];
+    let freshNum = 0;
+    const rows = grid.length;
+    const cols = grid[0].length;
+
+    const rot = (r: number, c: number) => {
+      if (r<0 || c<0 || r>=rows || c>=cols) return;
+
+      if (grid[r][c] === 1) {
+        grid[r][c] = 2;
+        queue.push([r, c]);
+        freshNum--;
+      }
+
+    };
+
+    for (let i=0; i<rows; i++) {
+      for (let j=0; j<cols; j++) {
+        if (grid[i][j]===2) {
+          queue.push([i, j]);
+        } else if (grid[i][j]===1) {
+          freshNum++;
+        }
+      }
+    }
+
+
+    while (queue.length > 0) {
+    //while (queue.length > 0  && freshNum > 0) {
+      const n = queue.length;
+      console.log("= while ================", n);
+      console.log(n, freshNum);
+      for (let i=0; i<n; i++) {
+        const [r, c] = queue.shift()!;
+        rot(r-1, c);
+        rot(r+1, c);
+        rot(r, c-1);
+        rot(r, c+1);
+      }
+      time++;
+      console.log('time=',time);
+    }
+
+    console.log('final time', time);
+    return freshNum===0? time-1: -1;
+
   };
 
   const handleCalculate = () => {
@@ -108,7 +162,10 @@ const RottenOranges = () => {
       //   row.split(',').map(Number)
       // );
       const grid = JSON.parse(input);
-      setResult(orangesRotting2(grid));
+      const grid2 = [...grid];
+      //orangesRotting2(grid);
+      console.log("===========================");
+      setResult(orangesRotting3(grid));
     } catch (error) {
       console.error('Invalid input format');
     }
@@ -117,10 +174,10 @@ const RottenOranges = () => {
   return (
     <div className="bg-white rounded-lg shadow p-6">
       <Typography variant="h6" gutterBottom>
-        Rotting Oranges
+        Rotting Oranges 2: rotten, 1: fresh, 0: no orange
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        [[2,1,1],[1,1,0],[0,1,1]] output: 3
+        [[2,1,1],[1,1,0],[0,1,1]] output: 4
       </p>
       <p className="text-sm text-gray-600 mb-4">
         [[2,1],[1,1]] output: 2
@@ -131,6 +188,9 @@ const RottenOranges = () => {
       <p className="text-sm text-gray-600 mb-4">
         [[2,1,1,1],[1,1,1,2],[0,0,1,1]] output: 2
       </p>
+      <p className="text-sm text-gray-600 mb-4">[[0]] oupt: 0</p>
+      <p className="text-sm text-gray-600 mb-4">[[2]] oupt: 0</p>
+      <p className="text-sm text-gray-600 mb-4">[[1]] oupt: -1</p>
       <TextField
         label="Enter grid (format: row1;row2;row3)"
         variant="outlined"

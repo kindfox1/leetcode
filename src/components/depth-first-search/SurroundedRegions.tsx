@@ -5,6 +5,13 @@ const SurroundedRegions = () => {
   const [input, setInput] = useState('');
   const [result, setResult] = useState<string[][]>([]);
 
+  /*
+  Given an m x n matrix grid containing only characters 'X' and 'O', modify grid to replace all 
+  regions of 'O' that are completey surrounded by 'X' with 'X'.
+
+  A region of 'O' is surrounded by 'X' if there is no adjacent path (cells that border each other in the N, W, E, S directions) 
+  consisting of only 'O' from anywhere inside that region to the border of the board.
+  */
   const solve = (board: string[][]): void => {
     if (!board.length) return;
     
@@ -119,6 +126,68 @@ const SurroundedRegions = () => {
     }
   };
 
+  const solve2 = (board: string[][]): void => {
+    const rows = board.length;
+    const cols = board[0].length;
+    const directions = [[-1,0],[1,0],[0,-1],[0,1]];
+    const border: number[][] = [];
+
+    //top
+    for (let t=0; t<cols; t++) {
+      if (board[0][t] === 'O') {
+        border.push([0,t]);
+      }
+    }
+    //bottom
+    for (let b=0; b<cols; b++) {
+      if (board[rows-1][b] === 'O') {
+        border.push([rows-1,b]);
+      }
+    }
+    //left
+    for (let l=0; l<rows; l++) {
+      if (board[l][0] === 'O') {
+        border.push([l,0]);
+      }
+    }
+    //right
+    for (let r=0; r<rows; r++) {
+      if (board[r][cols-1] === 'O') {
+        border.push([r,cols-1]);
+      }
+    }
+    console.log(JSON.stringify(border));
+
+    const dfs = (r: number, c: number) => {
+      if (r<0 || c<0 || r>=rows || c>=cols) return;
+
+      if (board[r][c] !== "O") {
+        return;
+      }
+      board[r][c] = "#"; //mark all O at border or connect to border O to # for now
+
+      dfs(r-1, c);
+      dfs(r+1, c);
+      dfs(r, c-1);
+      dfs(r, c+1);
+    };
+
+    for (const [x, y] of border) {
+      dfs(x, y);
+    }
+
+    for (let i=0; i<rows; i++) {
+      for (let j=0; j<cols; j++) {
+        if (board[i][j]==="O") {
+          board[i][j] = "X"
+        }
+        if (board[i][j]==="#") {
+          board[i][j] = "O"
+        }
+      }
+    }
+  };
+
   const handleSolve = () => {
     //try {
       // const board = input.split(';').map(row => 
@@ -126,7 +195,7 @@ const SurroundedRegions = () => {
       // );
       //solve(board);
       const board = JSON.parse(input);
-      solve3(board);
+      solve2(board);
       
       setResult(board);
     // } catch (error) {
@@ -139,9 +208,6 @@ const SurroundedRegions = () => {
       <Typography variant="h6" gutterBottom>
         Surrounded Regions
       </Typography>
-      <p className="text-sm text-gray-600 mb-4">
-        Example: X,X,X,X;X,O,O,X;X,X,O,X;X,O,X,X
-      </p>
       <p className="text-sm text-gray-600 mb-4">
         Example: [["X","X","X","X"],["X","O","O","X"],["X","X","O","X"],["X","O","X","X"]]
       </p>

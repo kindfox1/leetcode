@@ -117,13 +117,58 @@ const WordSearch = () => {
     return wordFound;
   };
 
+  const wordSearch2 = (mat: string[][], word: string): boolean => {
+    if (!mat || !mat.length) return false;
+    const len = word.length;
+    const queue :number[][] = [];
+    const rows = mat.length;
+    const cols = mat[0].length;
+    let wordFound = false;
+
+    const dfs = (r: number, c: number, currInx: number) => {
+      if (r<0 || c<0 || r>=rows || c>=cols) return;
+
+      console.log(mat[r][c], currInx);
+      if (mat[r][c] === word[currInx]) {
+        console.log('matched!!!');
+        if (currInx === len-1) {
+          console.log('reched to end!!!');
+          wordFound = true;
+        } else {
+          const temp = mat[r][c];
+          mat[r][c] = "#"; // mark as visited
+
+          dfs(r-1, c, currInx+1);
+          dfs(r+1, c, currInx+1);
+          dfs(r, c-1, currInx+1);
+          dfs(r, c+1, currInx+1);
+          mat[r][c] = temp;
+        }
+      } else {
+        return;
+      }
+    };
+
+    for (let r=0; r<mat.length; r++) {
+      for (let c=0; c<mat[0].length; c++) {
+        if (mat[r][c] === word[0]) {
+          queue.push([r, c]);
+        }
+      }
+    }
+
+    while (queue.length > 0) {
+      const [r, c] = queue.shift()!;
+      dfs(r, c, 0);
+    }
+    return wordFound;
+
+  }
+
   const handleCheck = () => {
     try {
-    //   const values = input.split(',').map(val => 
-    //     val.trim() === 'null' ? null : Number(val)
-    //   );
       const matrix = JSON.parse(input);
-      setResult(JSON.stringify(wordSearch(matrix, word)));
+      setResult(JSON.stringify(wordSearch2(matrix, word)));
     } catch (error) {
       console.error('Invalid input');
     }
@@ -135,13 +180,10 @@ const WordSearch = () => {
       <Typography variant="h6" gutterBottom>
         Word search
       </Typography>
-    <p className="text-sm text-gray-600 mb-4">
-      [["B", "L", "C", "H"],["D", "E", "L", "T"],["D", "A", "K", "A"]] search: BLEAK Output: true
-    </p>
-    <p className="text-sm text-gray-600 mb-4">[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED" Output: true</p>
       <p className="text-sm text-gray-600 mb-4">
-        4,7,2,1,3,6,1 Target:7 Ouput [[4,2,1]]
+        [["B", "L", "C", "H"],["D", "E", "L", "T"],["D", "A", "K", "A"]] search: BLEAK Output: true
       </p>
+      <p className="text-sm text-gray-600 mb-4">[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED" Output: true</p>
       <TextField
         label="Enter tree values (comma-separated)"
         variant="outlined"

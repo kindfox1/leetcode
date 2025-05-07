@@ -93,7 +93,7 @@ const Matrix01 = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
+    <div className="bg-white rounded-lg shadow p-6 hard">
       <Typography variant="h6" gutterBottom>
         01 Matrix
       </Typography>

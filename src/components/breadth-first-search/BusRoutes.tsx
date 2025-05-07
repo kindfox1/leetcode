@@ -105,75 +105,61 @@ const BusRoutes = () => {
 
   // [[1,2,7],[3,6,7]] Source: 1 Target: 6 Output 2
   const numBusesToDestination2 = (routes: number[][], source: number, target: number): number => {
-    if (source === target) return 0;
-    let sourceRoute: number | null = null;
-    let sourceStopIndex: number | null = null;
-    let targetRoute: number | null = null;
-    let targetStopIndex: number | null = null;
-    const stopsMap = new Map();
-    let result = 0;
+    if (source === target) {
+      return 0;
+    }
+    let result = -1;
+    const map = new Map<number, number[]>();
+
+    // build adjacency list
+    for (let routeIndex=0; routeIndex<routes.length; routeIndex++) {
+      for (const stop of routes[routeIndex]) {
+        if (map.has(stop)) {
+          map.get(stop)?.push(routeIndex);
+        } else {
+          map.set(stop, [routeIndex]);
+        }
+      }
+    }
+
+    if (!map.has(source)) {
+      return -1;
+    }
+
+    const queue: [number, number][] = [];
+    const visited = new Set<number>();
+
+    // init the queue start traverse the route(s) with source stop
+    for (const route of map.get(source)!) {
+      queue.push([route, 1]);
+      visited.add(route);
+    }
+
+    while (queue.length > 0) {
+      const [route, count] = queue.shift()!;
+      //console.log('queue =', route, count);
+
+      for (const stop of routes[route]) {
+        //console.log('stop', stop);
+        if (stop === target) {
+          //console.log('FOUND IT!!!!', stop, count);
+          return count;
+        }
+
+        if (stop !== source) {
+          for (const route of map.get(stop)!) {
+            if (!visited.has(route)) {
+              queue.push([route, count+1]);
+              visited.add(route);
+            }
+          }
+          
+        }
+      }
+    }
     
-    for (let i=0; i<routes.length; i++) {
-      for (let stop=0; stop<routes[i].length; stop++) {
-        if (stopsMap.has(routes[i][stop])) {
-          console.log(stopsMap.get(routes[i][stop]));
-          stopsMap.set(routes[i][stop], [...stopsMap.get(routes[i][stop]), i]);
-        } else {
-          stopsMap.set(routes[i][stop], [i]);
-        }
-
-        if (routes[i][stop] === source) {
-          sourceRoute = i;
-          sourceStopIndex = stop;
-        }
-
-        if (routes[i][stop] === target) {
-          targetRoute = i;
-          targetStopIndex = stop;
-        }
-      }
-    }
-    console.log('map', stopsMap);
-
-    if (sourceRoute === targetRoute && sourceRoute !== null) {
-      return 1;
-    }
-
     
-
-    //now we know the source and target are not on the same route
-    let loop = 0;
-    let currX = sourceRoute!;
-    let currY = sourceStopIndex!;
-    while (loop < 10) {
-      console.log('current stop', routes[currX][currY]);
-      console.log('indexs', currX, currY);
-      if (currY-1 >=0) {
-        if (stopsMap.get(routes[currX][currY-1]).length > 1) { //found connection??
-          currX = stopsMap.get(routes[currX][currY-1]).filter((routeIndex: number) => currX !== routeIndex );
-          result++;
-        } else {
-          currY = currY -1;
-        }
-      }
-
-      console.log('currX', currX);
-      console.log('currY', currY+1)
-
-      if (currY+1 < routes[currX].length) {
-        console.log('next', routes[currX][currY+1]);
-        if (stopsMap.get(routes[currX][currY+1]).length > 1) { //found connection??
-          currX = stopsMap.get(routes[currX][currY+1]).filter((routeIndex: number) => currX !== routeIndex );
-          result++;
-        } else {
-          currY = currY+1;
-        }
-      }
-
-
-
-      loop++;
-    }
+    //console.log(map);
     
     
     return result;
@@ -189,7 +175,7 @@ const BusRoutes = () => {
       const targetNum = parseInt(target);
       
       if (!isNaN(sourceNum) && !isNaN(targetNum)) {
-        setResult(busRoutes(routesArray, sourceNum, targetNum));
+        setResult(numBusesToDestination2(routesArray, sourceNum, targetNum));
       }
     } catch (error) {
       console.error('Invalid input format');

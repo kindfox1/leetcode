@@ -9,7 +9,7 @@ const Introduction = () => {
     const visited = new Set<number>();
     const queue: number[] = [root];
     const result: number[] = [];
-
+console.log(graph);
     while (queue.length > 0) {
       const current = queue.shift()!;
       if (!visited.has(current)) {
@@ -23,9 +23,31 @@ const Introduction = () => {
     return result;
   };
 
+  const bfs2 = (root: number, graph: Map<number, number[]>): number[] => {
+    const result: number[] = [];
+    const queue: number[] = [];
+    const visited = new Set<number>();
+
+    queue.push(root);
+    while (queue.length > 0) {
+      let vertex = queue.shift()!;
+      
+
+      if (!visited.has(vertex)) {
+        result.push(vertex);
+        visited.add(vertex);
+        const neighbors = graph.get(vertex) || [];
+        queue.push(...neighbors);
+      }
+    }
+    
+    return result;
+  };
+
   const handleCalculate = () => {
     try {
-      const edges = input.split(';').map(pair => pair.split(',').map(Number));
+      //const edges = input.split(';').map(pair => pair.split(',').map(Number));
+      const edges = JSON.parse(input);
       const graph = new Map<number, number[]>();
       
       for (const [from, to] of edges) {
@@ -46,7 +68,7 @@ const Introduction = () => {
         BFS Introduction
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 1,2;1,3;2,4;2,5;3,6
+        Example: [[1,2],[1,3],[2,4],[2,5],[3,6]]
       </p>
       <TextField
         label="Enter edges (format: from,to;from,to)"

@@ -56,17 +56,53 @@ const FloodFill = () => {
     return image;
   };
 
+  const floodFill3 = (image: number[][], sr: number, sc: number, newColor: number): number[][] => {
+    const rows = image.length;
+    const cols = image[0].length;
+    const directions = [[-1,0],[1,0],[0,-1],[0,1]];
+    const oldColor = image[sr][sc];
+
+    const dfs = (r: number, c: number) => {
+      if (r < 0 || c < 0 || r >= rows || c >= cols) return;
+
+      if (image[r][c]===oldColor) {
+        image[r][c]=-1;
+
+        for (const [x, y] of directions) {
+          dfs(r+x, c+y);
+        }
+      } else {
+        return;
+      }
+      
+    };
+
+    dfs(sr, sc);
+
+    console.log(image);
+    for (let i=0; i<rows; i++) {
+      for (let j=0; j<cols; j++) {
+        if (image[i][j] === -1) {
+          image[i][j] = newColor;
+        }
+      }
+    }
+
+    return image;
+  };
+
   const handleFill = () => {
     try {
-      const image = input.split(';').map(row => 
-        row.split(',').map(Number)
-      );
+      // const image = input.split(';').map(row => 
+      //   row.split(',').map(Number)
+      // );
+      const image = JSON.parse(input);
       const startRow = parseInt(sr);
       const startCol = parseInt(sc);
       const newColor = parseInt(color);
       
       if (!isNaN(startRow) && !isNaN(startCol) && !isNaN(newColor)) {
-        setResult(floodFill(image, startRow, startCol, newColor));
+        setResult(floodFill3(image, startRow, startCol, newColor));
       }
     } catch (error) {
       console.error('Invalid input');
@@ -79,7 +115,7 @@ const FloodFill = () => {
         Flood Fill
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 1,1,1;1,1,0;1,0,1 sr=1 sc=1 color=2
+        [[1,1,1],[1,1,0],[1,0,1]] sr=1 sc=1 color=2, output: [2,2,2],[2,2,0],[2,0,1]
       </p>
       <TextField
         label="Enter image (format: row1;row2;row3)"

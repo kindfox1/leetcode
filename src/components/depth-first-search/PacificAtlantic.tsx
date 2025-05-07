@@ -94,16 +94,79 @@ const PacificAtlantic = () => {
     return result;
   };
 
-  const handleCalculate = () => {
-    try {
-      // const heights = input.split(';').map(row => 
-      //   row.split(',').map(Number)
-      // );
-      const heights = JSON.parse(input);
-      setResult(pacificAtlantic2(heights));
-    } catch (error) {
-      console.error('Invalid input');
+  const pacificAtlantic3 = (heights: number[][]): number[][] => {
+    const rows = heights.length;
+    const cols = heights[0].length;
+    const atlantic = Array.from({length: rows }, () => new Array(cols).fill(false));
+    const pacific = Array.from({ length: rows }, () => new Array(cols).fill(false));
+
+    const dfs = (r: number, c: number) => {
+      if (r<0 || c<0 || r>=rows || c>= cols) return;
+
+      if (heights[r][c] === -1) return;
+console.log(r, c);
+      if (r-1>=0 && heights[r][c] >= heights[r-1][c]) { //up
+        atlantic[r][c] = atlantic[r-1][c];
+        pacific[r][c] = pacific[r-1][c];
+      }
+
+      if (r+1<rows && heights[r][c] >= heights[r+1][c] ) { //down
+        atlantic[r][c] = atlantic[r+1][c];
+        pacific[r][c] = pacific[r+1][c];
+      } 
+
+      if (c-1>=0 && heights[r][c] >= heights[r][c-1]) { //left
+        atlantic[r][c] = atlantic[r][c-1];
+        pacific[r][c] = pacific[r][c-1];
+      } 
+
+      if (c+1<cols && heights[r][c] >= heights[r][c+1]) { //right
+        atlantic[r][c] = atlantic[r][c+1];
+        pacific[r][c] = pacific[r][c+1];
+      }
+
+      heights[r][c] = -1; //mark it as visited
+
+      dfs(r-1, c);
+      dfs(r+1, c);
+      dfs(r, c-1);
+      dfs(r, c+1);
+
+    };
+
+    for (let i=0; i<cols; i++) {//up and bottom
+      pacific[0][i] = true;
+      atlantic[rows-1][i] = true;
+      heights[0][i] = -1;
+      heights[rows-1][i] = -1;
     }
+
+    for (let j=0; j<rows; j++) {//left and right
+      pacific[j][0] = true;
+      atlantic[j][cols-1] = true;
+      heights[j][0] = -1;
+      heights[j][cols-1] = -1;
+    }
+
+    for (let r=1; r<rows-1; r++) {
+      for (let c=1; c<cols-1; c++) {
+        dfs(r, c);
+      }
+    }
+
+    console.log(pacific);
+    console.log(atlantic);
+
+    return heights;
+  };
+
+  const handleCalculate = () => {
+    //try {
+      const heights = JSON.parse(input);
+      setResult(pacificAtlantic3(heights));
+    // } catch (error) {
+    //   console.error('Invalid input');
+    // }
   };
 
   return (

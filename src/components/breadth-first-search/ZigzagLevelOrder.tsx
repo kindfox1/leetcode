@@ -110,13 +110,46 @@ const ZigzagLevelOrder = () => {
     return result;
   };
 
+  const zigzagLevelOrder3 = (root: TreeNode | null): number[][] => {
+    const result :number[][] = [];
+    let ltr :boolean= true;
+
+    if (!root) {
+      return result;
+    }
+
+    const queue: TreeNode[] = [root];
+
+    while (queue.length > 0) {
+      let size = queue.length;
+      //let curr = queue.shift()!;
+      let currLevel :number[]= [];
+
+      for (let i=0; i<size; i++) {
+        let node = queue.shift()!;
+        if (ltr) {
+          currLevel.push(node.val);
+        } else {
+          currLevel.unshift(node.val);
+        }
+
+        if (node.left) queue.push(node.left);
+        if (node.right) queue.push(node.right);
+      }
+
+      result.push(currLevel);
+      ltr = !ltr; //toggle left to right
+    }
+
+
+    return result;
+  };
+
   const handleCalculate = () => {
     //try {
-      const values = input.split(',').map(val => 
-        val.trim() === 'null' ? null : Number(val)
-      );
+      const values = JSON.parse(input);
       const tree = buildTree(values);
-      setResult(zigzagLevelOrder2(tree));
+      setResult(zigzagLevelOrder3(tree));
     // } catch (error) {
     //   console.error('Invalid input format');
     // }
@@ -128,9 +161,10 @@ const ZigzagLevelOrder = () => {
         Zigzag Level Order Traversal
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 3,9,20,null,null,15,7
+        [3,9,20,null,null,15,7] output: [[3], [20, 9], [15, 7]]
       </p>
-      <p className="text-sm text-gray-600 mb-4">Output: [[3], [20, 9], [15, 7]]</p>
+      <p className="text-sm text-gray-600 mb-4">[1, 3, 4, null, 2, 7, null, 8] output: [[1],[4,3],[2,7],[8]]</p>
+      <p className="text-sm text-gray-600 mb-4">[4, 2, 7, 1, 3, 6, 9, null, 5, null, 2] ouput: [[4], [7, 2], [1, 3, 6, 9], [2, 5]]</p>
       <TextField
         label="Enter tree values (comma-separated)"
         variant="outlined"

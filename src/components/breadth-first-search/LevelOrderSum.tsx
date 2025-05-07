@@ -90,14 +90,43 @@ const LevelOrderSum = () => {
     return result;
   };
 
+  const levelOrderSum3 = (root: TreeNode | null): number[] => {
+    const result: number[] = [];
+    const queue: TreeNode[][] = [];
+    if (!root) return result;
+
+    queue.push([root]);
+    while (queue.length > 0) {
+      const currentLevel = queue.shift()!;
+      const level: TreeNode[]= [];
+      let levelSum = 0;
+      for (const node of currentLevel) {
+        levelSum += node.val;
+        console.log('node', node);
+        if (node.left) {
+          level.push(node.left);
+        }
+  
+        if (node.right) {
+          level.push(node.right);
+        }
+      }
+
+      result.push(levelSum);
+      if (level.length > 0) queue.push(level);
+    }
+    return result;
+  };
+
   const handleCalculate = () => {
     try {
-      const values = input.split(',').map(val => 
-        val.trim() === 'null' ? null : Number(val)
-      );
+      // const values = input.split(',').map(val => 
+      //   val.trim() === 'null' ? null : Number(val)
+      // );
+      const values = JSON.parse(input);
       const tree = buildTree(values);
-      console.log(tree);
-      setResult(levelOrderSum2(tree));
+      console.log('tree', tree);
+      setResult(levelOrderSum3(tree));
     } catch (error) {
       console.error('Invalid input format');
     }
@@ -109,7 +138,7 @@ const LevelOrderSum = () => {
         Level Order Sum
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: 3,9,20,null,null,15,7
+        Example: [3,9,20,null,null,15,7] output: [3,29,22]
       </p>
       <TextField
         label="Enter tree values (comma-separated)"
