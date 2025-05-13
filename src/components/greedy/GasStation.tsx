@@ -56,6 +56,28 @@ const GasStation = () => {
     return totalGas >= totalCost ? startStation : -1;
   }
 
+
+  //  gas = [5,2,0,3,3], 
+  // cost = [1,5,5,1,1] → Output: 3
+  const canCompleteCircuit3 = (gas: number[], cost: number[]): number => {
+    let station = 0;
+    let gasRemain = 0;
+    let totalGas = 0;
+    let totalCost = 0;
+
+    for (let i=0; i<gas.length; i++) {
+      gasRemain = gas[i] + gasRemain - cost[i];
+      if (gasRemain < 0) {
+        gasRemain = 0;
+        station = i+1;
+      }
+    }
+
+
+    return totalGas >= totalCost ? station : -1;
+
+  };
+
   const handleCalculate = () => {
     try {
       const gasArray = JSON.parse(gas);

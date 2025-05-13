@@ -8,6 +8,20 @@ const CountingBits = () => {
   /*
     Given an integer n, return an array dp of size n + 1, where dp[i] stores the count of '1' bits in the binary form of i.
 
+    any binary number can be broken down into two parts: the least-significant (rightmost bit), and the rest of the bits. 
+    The rest of the bits can be expressed as the binary number divided by 2 (rounded down), or i >> 1.
+    
+    For example:
+    - 4 in binary = 100
+    - rightmost bit = 0
+    - rest of bits = 10, which is also (4 // 2) = 2 in binary.
+    
+    When the number is odd,
+    - 5 in binary = 101
+    - rightmost bit = 1
+    - rest of bits = 10, which is also (5 // 2) = 2 in binary. in JavaScript it is either Math.floor(i / 2) or i >> 1
+    
+    
     Time Complexity: O(n), where n is the input number.
     Space Complexity: O(n), for the dp array.
     0 --> 0
@@ -38,8 +52,9 @@ const CountingBits = () => {
     const dp = Array(n+1).fill(0);
 
     for (let i=1; i<=n; i++) {
-
+      dp[i] = dp[Math.floor(i/2)] + (i % 2);
     }
+    return dp;
   };
 
   const handleGenerate = () => {
@@ -50,7 +65,7 @@ const CountingBits = () => {
         throw new Error('Invalid input');
       }
 
-      const dp = countBits(num);
+      const dp = countBits2(num);
       setResult(dp);
     } catch (error) {
       console.error('Invalid input');

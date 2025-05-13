@@ -21,12 +21,8 @@ const MaximumProfitJobScheduling = () => {
       profit: profit[i],
     }));
 
-    console.log(jobs);
-
     // Sort jobs by end time
     jobs.sort((a, b) => a.end - b.end);
-
-    console.log(jobs);
 
     const dp = Array(n).fill(0);
     dp[0] = jobs[0].profit;
@@ -87,12 +83,12 @@ const MaximumProfitJobScheduling = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
+    <div className="bg-white rounded-lg shadow p-6 hard">
       <Typography variant="h6" gutterBottom>
         Maximum Profit in Job Scheduling
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: Input jobs = [[1,2,50],[3,5,20],[6,19,100],[2,100,200]] → Output: 250
+        Example: Input jobs = [[1,2,50],[3,5,20],[6,19,100],[2,10,200]] → Output: 250
       </p>
       <TextField
         label="Enter jobs (as JSON array of [start, end, profit])"

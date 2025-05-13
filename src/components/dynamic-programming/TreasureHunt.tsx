@@ -29,6 +29,21 @@ const TreasureHunt = () => {
     return prev1;
   };
 
+  const maxTreasure2 = (treasure: number[]): number => {
+    if (treasure.length === 0) return 0;
+    if (treasure.length === 1) return treasure[0];
+    let prev1 = 0;
+    let prev2 = 0;
+
+    for (const t of treasure) {
+      const current = Math.max(prev1, prev2 + t);
+      prev2 = prev1;
+      prev1 = current;
+    }
+
+    return prev1;
+  };
+
   const handleCalculate = () => {
     try {
       const treasureArray = JSON.parse(treasure);

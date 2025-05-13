@@ -52,17 +52,94 @@ const GenerateParentheses = () => {
     };
 
     dfs("", 0, 0);
-console.log(result);
+    return result;
+  };
+
+  const generateParentheses3 = (n: number): string[] => {
+    const result :string[] = [];
+
+    const backtrack = (s: string, left: number, right: number) => {
+      if (s.length === n * 2) {
+        result.push(s);
+        return;
+      }
+
+      if (left < n) {
+        backtrack(s+'(', left+1, right);
+      }
+
+      if (left > right) {
+        backtrack(s+')', left, right+1)
+      }
+    };
+
+
+    backtrack('', 0, 0);
+    return result;
+  };
+
+  // no recursion solution by copilot
+  const generateParenthesesIterative = (n: number): string[] => {
+    const result: string[] = [];
+    const stack: { current: string; open: number; close: number }[] = [];
+  
+    // Start with an empty string and 0 open/close parentheses
+    stack.push({ current: '', open: 0, close: 0 });
+  
+    while (stack.length > 0) {
+      const { current, open, close } = stack.pop()!;
+  
+      // If the current string is valid and complete, add it to the result
+      if (current.length === n * 2) {
+        result.push(current);
+        continue;
+      }
+  
+      // Add a '(' if we haven't used all open parentheses
+      if (open < n) {
+        stack.push({ current: current + '(', open: open + 1, close });
+      }
+  
+      // Add a ')' if the number of close parentheses is less than open
+      if (close < open) {
+        stack.push({ current: current + ')', open, close: close + 1 });
+      }
+    }
+  
+    return result;
+  };
+
+  const generateParenthesesIterative2 = (n: number): string[] => {
+    const result: string[] = [];
+    const stack: { current: string; open: number; close: number }[] = [];
+
+    stack.push({current: '', open: 0, close: 0});
+    while (stack.length > 0) {
+      const curr = stack.pop()!;
+      if (curr.current.length === n*2) {
+        result.push(curr.current);
+        continue;
+      }
+
+      if (curr.open < n) {
+        stack.push({current: curr.current+'(', open: curr.open+1, close: curr.close});
+      }
+
+      if (curr.open > curr.close) {
+        stack.push({current: curr.current+')', open: curr.open, close: curr.close+1});
+      }
+    }
+  
     return result;
   };
 
   const handleGenerate = () => {
     //try {
-      const num = parseInt(n, 10);
+      const num = parseInt(n, 10);  
       if (isNaN(num) || num < 0) {
         throw new Error('Invalid input');
       }
-      const combinations = generateParentheses2(num);
+      const combinations = generateParenthesesIterative2(num);
       setResult(combinations);
     // } catch (error) {
     //   console.error('Invalid input');

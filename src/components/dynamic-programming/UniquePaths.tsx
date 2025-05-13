@@ -31,6 +31,41 @@ const UniquePaths = () => {
     return dp[m - 1][n - 1];
   };
 
+  //recursive version 
+  function uniquePathsRe(m: number, n: number, memo: Record<string, number> = {}): number {
+    const key = `${m},${n}`;
+  
+    if (m === 1 || n === 1) {
+      return 1;
+    } else if (key in memo) {
+      return memo[key];
+    } else {
+      memo[key] = uniquePathsRe(m - 1, n, memo) + uniquePathsRe(m, n - 1, memo);
+      return memo[key];
+    }
+  }
+
+  // let memo as global variable is easier to digest than version above this.
+  function uniquePathsRe2(m: number, n: number): number {
+    
+    const memo: Record<string, number> = {};
+
+    const dfs = (r: number, c: number) => {
+      const key = `${r},${c}`;
+      if (r === 1 || c === 1) {
+        return 1;
+      } else if (key in memo) {
+        return memo[key];
+      } else {
+        memo[key] = uniquePathsRe(r - 1, c) + uniquePathsRe(r, c - 1);
+        return memo[key];
+      }
+    }
+
+    return dfs(m, n);
+  }
+  
+
   const handleCalculate = () => {
     try {
       const rows = parseInt(m, 10);
@@ -40,7 +75,7 @@ const UniquePaths = () => {
         throw new Error('Invalid input');
       }
 
-      const paths = uniquePaths(rows, cols);
+      const paths = uniquePathsRe2(rows, cols);
       setResult(paths);
     } catch (error) {
       console.error('Invalid input');

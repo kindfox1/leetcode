@@ -18,6 +18,7 @@ import Greedy from './components/greedy';
 import Trie from './components/Trie';
 import PrefixSum from './components/PrefixSum';
 import Matrices from './components/Matrices';
+import Blind75 from './components/blind75';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
               <Route path="/trie" element={<Trie />} />
               <Route path="/prefix-sum" element={<PrefixSum />} />
               <Route path="/matrices" element={<Matrices />} />
+              <Route path="/blind75" element={<Blind75 />} />
             </Routes>
           </div>
         </div>

@@ -57,6 +57,7 @@ const SubarraySumEqualsK = () => {
     return count;
   };
 
+
   const handleCalculate = () => {
     try {
       const numsArray = JSON.parse(nums);
@@ -75,10 +76,13 @@ const SubarraySumEqualsK = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
+    <div className="bg-white rounded-lg shadow p-6 hard">
       <Typography variant="h6" gutterBottom>
         Subarray Sum Equals K
       </Typography>
+      <p className="text-sm text-gray-600 mb-4">
+        how many subarray's sum equals K
+      </p>
       <p className="text-sm text-gray-600 mb-4">
         Example: Input nums = [3, 4, 7, 2, -3, 1, 4, 2], k = 7 → Output: 4
       </p>

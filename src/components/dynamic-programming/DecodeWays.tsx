@@ -22,11 +22,6 @@ const DecodeWays = () => {
     for (let i = 1; i < s.length; i++) {
       const current = parseInt(s[i], 10);
       const twoDigit = parseInt(s.slice(i - 1, i + 1), 10);
-
-      console.log('************************** i=',i);
-      console.log('current', current);
-      console.log('two-dig', twoDigit);
-
       let currentWays = 0;
 
       // Check if the current digit is valid
@@ -41,15 +36,12 @@ const DecodeWays = () => {
 
       prev2 = prev1;
       prev1 = currentWays;
-      console.log('currentWays', currentWays);
-      console.log('prev1', prev1);
-      console.log('prev2', prev2);
     }
 
     return prev1;
   };
 
-    //ChatGPT inter HelloInterview
+    //ChatGPT into HelloInterview
     function numDecodings2(s: string): number {
         if (!s || s[0] === '0') {
             return 0;
@@ -123,12 +115,17 @@ const DecodeWays = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
+    <div className="bg-white rounded-lg shadow p-6 hard">
       <Typography variant="h6" gutterBottom>
         Decode Ways
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: Input s = "101" → Output: 1
+        1 → A, 2 → B, 3 → C, 4 → D, 5 → E, ...
+      </p>
+      <p className="text-sm text-gray-600 mb-4">
+        s = "101" → Output: 1, e.g. "JA"</p>
+
+      <p className="text-sm text-gray-600 mb-4">s = "124" → Output: 3, e.g. "ABD", "AX", "LD"
       </p>
       <TextField
         label="Enter a string of digits (s)"

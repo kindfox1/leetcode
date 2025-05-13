@@ -61,6 +61,32 @@ const CombinationSum = () => {
     backtracking(0, [], target);
     return result;
   };
+  const combinationSum3 = (candidates: number[], target: number): number[][] => {
+    const result: number[][] = [];
+
+    const backtracking = (index: number, path: number[], remain: number) => {
+      if (index === remain) {
+        result.push(path);
+        return;
+      }
+
+      for (let i=index; i<candidates.length; i++) {
+        path.push(candidates[i]);
+        backtracking(i, path, remain-candidates[i]);
+        path.pop();
+      }
+      
+      //backtracking(index+1, [...path, candidates[index]], remain-candidates[index]);
+
+    };
+
+
+    candidates.sort((a, b) => a - b);
+    backtracking(0, [], target);
+    return result;
+  }
+
+
 
   const handleGenerate = () => {
     try {

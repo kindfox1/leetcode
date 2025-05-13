@@ -33,6 +33,7 @@ export default function Sidebar() {
     { name: 'Trie', path: '/trie' },
     { name: 'Prefix Sum', path: '/prefix-sum' },
     { name: 'Matrices', path: '/matrices' },
+    { name: 'Blind75', path: '/blind75' },
   ];
 
   return (

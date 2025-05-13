@@ -14,12 +14,10 @@ const RotateMatrix = () => {
 
   const rotate = (matrix: number[][]): void => {
     const n = matrix.length;
-    let count = 0;
 
     // Transpose the matrix
     for (let i = 0; i < n; i++) {
       for (let j = i +1; j < n; j++) {
-        count++;
         [matrix[i][j], matrix[j][i]] = [matrix[j][i], matrix[i][j]];
       }
     }
@@ -29,6 +27,36 @@ const RotateMatrix = () => {
       matrix[i].reverse();
     }
   };
+
+  // rotate 90 degree counter clockwise 
+  const rotateCounterClock = (matrix: number[][]): void => {
+    const n = matrix.length;
+
+    // Reverse each col
+    // for (let x = 0; x < n; x++) {
+    //   for (let y=0; y < Math.ceil(n/2); y++) {
+    //     [matrix[y][x], matrix[n-y-1][x]] = [matrix[n-y-1][x], matrix[y][x]];
+    //   }
+    // }
+
+    for (let row=0; row < Math.ceil(n/2); row++) {
+      [matrix[row], matrix[n-row-1]] = [matrix[n-row-1], matrix[row]];
+    }
+
+    // Transpose the matrix \
+    for (let i = 0; i < n-1; i++) {
+      for (let j = 0; j < n-1-i; j++) {
+        let r = n - 1 - i;
+        let c = n - 1 - j;
+        [matrix[i][j], matrix[c][r]] = [matrix[c][r], matrix[i][j]];
+      }
+    }
+
+    console.log(matrix);
+    
+  };
+
+
 
   const handleRotate = () => {
     try {
@@ -44,7 +72,7 @@ const RotateMatrix = () => {
         throw new Error('Invalid input');
       }
 
-      rotate(parsedMatrix);
+      rotateCounterClock(parsedMatrix);
       setResult(parsedMatrix);
     } catch (error) {
       console.error('Invalid input');

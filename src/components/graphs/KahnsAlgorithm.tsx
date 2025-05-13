@@ -47,6 +47,41 @@ const KahnsAlgorithm = () => {
     return topologicalOrder.length === numNodes ? topologicalOrder : null;
   };
 
+  const kahnsAlgorithm2 = (numNodes: number, edges: number[][]): number[] | null => {
+    const inDegree = Array(numNodes).fill(0);
+    const graph: number[][] = Array.from({ length: numNodes }, () => []);
+    const topologicalOrder :number[] = [];
+    const queue :number[] = [];
+
+    // build adjacency list
+    for (const [u, v] of edges) {
+      graph[u].push(v);
+      inDegree[v] += 1;
+    }
+    console.log(graph);
+    console.log(inDegree);
+
+    //find all node with 0 inDegree, and push to the queue
+    for (let i=0; i<inDegree.length; i++) {
+      if (inDegree[i]===0) queue.push(i);
+    }
+
+    //khan's algorithm
+    while (queue.length > 0) {
+      const node = queue.shift()!;
+      topologicalOrder.push(node);
+      for (const neighbor of graph[node]) {
+        inDegree[neighbor] -= 1;
+        if (inDegree[neighbor] === 0) {
+          queue.push(neighbor);
+        }
+      }
+    }
+console.log(topologicalOrder);
+    // If the topological order doesn't include all nodes, the graph has a cycle
+    return topologicalOrder.length === numNodes ? topologicalOrder : null;
+  };
+
   const handleGenerate = () => {
     //try {
       const edgesArray = JSON.parse(edges);
@@ -61,7 +96,7 @@ const KahnsAlgorithm = () => {
         throw new Error('Invalid input');
       }
 
-      const topologicalOrder = kahnsAlgorithm(nodes, edgesArray);
+      const topologicalOrder = kahnsAlgorithm2(nodes, edgesArray);
       setResult(topologicalOrder);
     // } catch (error) {
     //   console.error('Invalid input');

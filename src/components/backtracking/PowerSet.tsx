@@ -35,13 +35,36 @@ const PowerSet = () => {
     return result;
   };
 
+  const subsets2 = (nums: number[]): number[][] => {
+    const result :number[][] = [];
+
+    const backtracking = (idx: number, path: number[]) => {
+      if (idx === nums.length) {
+        result.push([...path]);
+        return;
+      }
+
+      //exclude the current number
+      backtracking(idx+1, path);
+
+      const digit = nums[idx];
+      path.push(digit);
+      backtracking(idx+1, path);
+      path.pop(); //backtracking
+    };
+
+    backtracking(0, []);
+
+    return result;
+  };
+
   const handleGenerate = () => {
     try {
       const numsArray = JSON.parse(nums);
       if (!Array.isArray(numsArray) || numsArray.some(isNaN)) {
         throw new Error('Invalid input');
       }
-      const powerSet = subsets(numsArray);
+      const powerSet = subsets2(numsArray);
       setResult(powerSet);
     } catch (error) {
       console.error('Invalid input');
@@ -54,8 +77,10 @@ const PowerSet = () => {
         Generate all subset
       </Typography>
       <p className="text-sm text-gray-600 mb-4">
-        Example: Input [1,2,3] → Output [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+        [1,2,3] = [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
       </p>
+      <p className="text-sm text-gray-600 mb-4">[0] = [[],[0]]</p>
+      <p className="text-sm text-gray-600 mb-4">[1,2] = [[],[1],[2],[1,2]]</p>
       <TextField
         label="Enter numbers (comma-separated)"
         variant="outlined"

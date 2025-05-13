@@ -48,6 +48,39 @@ const CourseSchedule = () => {
     return courseTaken === numCourses;
   };
 
+  const canFinish2 = (numCourses: number, prerequisites: number[][]): boolean => {
+    const inDegree = Array(numCourses).fill(0);
+    const graph: number[][] = Array.from({ length: numCourses }, () => []);
+    const queue: number[] = [];
+    let courseTaken = 0;
+    const courseOrder :number[] = [];
+
+    for (const [u, v] of prerequisites) {
+      graph[v].push(u);
+      inDegree[u] += 1;
+    }
+
+    for (let i=0; i<numCourses; i++) {
+      if (inDegree[i]===0) queue.push(i);
+    }
+
+    while(queue.length > 0) {
+      const node = queue.shift()!;
+      console.log(node);
+      courseOrder.push(node);
+      courseTaken++;
+
+      for (const neighbor of graph[node]) {
+        inDegree[neighbor]--;
+        if (inDegree[neighbor] === 0) queue.push(neighbor);
+      }
+    }
+
+    console.log(courseOrder);
+
+    return courseTaken === numCourses;
+  };
+
   const handleGenerate = () => {
     //try {
       const edgesArray = JSON.parse(edges);
@@ -62,7 +95,7 @@ const CourseSchedule = () => {
         throw new Error('Invalid input');
       }
 
-      const result = canFinish(nodes, edgesArray);
+      const result = canFinish2(nodes, edgesArray);
       setResult(result);
     // } catch (error) {
     //   console.error('Invalid input');

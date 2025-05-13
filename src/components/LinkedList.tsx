@@ -3,6 +3,10 @@ import { Typography } from '@mui/material';
 import LinkedListCycle from './linked-list/LinkedListCycle';
 import PalindromeLinkedList from './linked-list/PalindromeLinkedList';
 import SwapNodes from './linked-list/SwapNodes';
+import ReorderList from './linked-list/ReorderList';
+import RemoveNthNode from './linked-list/RemoveNthNode';
+import MergeSortedLists from './linked-list/MergeSortedLists';
+import MergeKSortedLists from './linked-list/MergeKSortedLists';
 
 const LinkedList = () => {
   return (
@@ -16,6 +20,10 @@ const LinkedList = () => {
           <LinkedListCycle />
           <PalindromeLinkedList />
           <SwapNodes />
+          <ReorderList />
+          <RemoveNthNode />
+          <MergeSortedLists />
+          <MergeKSortedLists />
         </div>
       </div>
     </main>

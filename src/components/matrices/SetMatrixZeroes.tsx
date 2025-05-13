@@ -140,6 +140,33 @@ const SetMatrixZeroes = () => {
       }
     }
   }
+
+  function setZeroes4(matrix: number[][]): void {
+    const rows = matrix.length;
+    const cols = matrix[0].length;
+    const zeroRows = new Set<number>();
+    const zeroCols = new Set<number>();
+  
+    for (let i=0; i<rows; i++) {
+      for (let j=0; j<cols; j++) {
+        if (matrix[i][j] === 0) {
+          zeroRows.add(i);
+          zeroCols.add(j);
+        }
+      }
+    }
+
+    for (const rowIndex of zeroRows) {
+      matrix[rowIndex].fill(0);
+    }
+
+    for (const colIndex of zeroCols) {
+      for (let row = 0; row < rows; row++) {
+        matrix[row][colIndex] = 0;
+      }
+      
+    }
+  }
   
 
   const handleSetZeroes = () => {

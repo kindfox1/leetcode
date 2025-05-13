@@ -28,14 +28,43 @@ const CanJump = () => {
     let maxReach = 0;
 
     for (let i=0; i<nums.length; i++) {
-
         if (i > maxReach) {
-            return false;
+          return false;
         }
         maxReach = Math.max(i + nums[i], maxReach);
     }
     return true;
   };
+
+  // [1, 2, 0, 1, 4]
+  // lastValidIndex = 1
+  // i = 1
+  // [2,2,1,0,5,1,1]
+  // nums.length = 6
+  // edge case [0], [2,0,0]
+ // THIS doesn't work for some edge case
+  const canJump3 = (nums: number[]): boolean => {
+    let lastValidIndex = 0;
+    let i=0;
+    if (nums.length === 1 && nums[0] === 0) {
+      return false;
+    }
+    while (i < nums.length) {
+      let maxDistance = nums[i];
+      if (i + maxDistance < nums.length && nums[i + maxDistance] === 0) {
+        if (i + maxDistance >= nums.length-1) return true;
+        if ( i=== lastValidIndex) return false;
+        i = lastValidIndex + 1;
+        lastValidIndex = i;
+      // } else if (i+maxDistance >= nums.length-1) {
+      //   return true;
+      } else {
+        lastValidIndex = i;
+        i += maxDistance;
+      }
+    }
+    return true;
+  }
 
   const handleCalculate = () => {
     try {
@@ -45,7 +74,7 @@ const CanJump = () => {
         throw new Error('Invalid input');
       }
 
-      const canReach = canJump2(numsArray);
+      const canReach = canJump3(numsArray);
       setResult(canReach);
     } catch (error) {
       console.error('Invalid input');

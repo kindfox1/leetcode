@@ -52,6 +52,32 @@ const CountVowelsInSubstrings = () => {
     return results;
   };
 
+  // prefixsum
+  const countVowels3 = (word: string, queries: number[][]): number[] => {
+    const vowels = new Set(['a', 'e', 'i', 'o', 'u']);
+    const prefixSum = Array(word.length + 1).fill(0);
+    const results: number[] = [];
+
+    // build the prefix
+    for (let i=1; i<=word.length; i++) {
+      const char = word[i-1];
+      if (vowels.has(char)) {
+        prefixSum[i] = prefixSum[i-1] + 1;
+      } else {
+        prefixSum[i] = prefixSum[i-1];
+      }
+    }
+
+    for (const query of queries) {
+      let count = prefixSum[query[1]+1] - prefixSum[query[0]+1];
+      results.push(count);
+    }
+
+    console.log(prefixSum);
+
+    return results;
+  };
+
   const handleCalculate = () => {
     try {
       const queriesArray = JSON.parse(queries);
@@ -68,7 +94,7 @@ const CountVowelsInSubstrings = () => {
         throw new Error('Invalid input');
       }
 
-      const results = countVowels2(word, queriesArray);
+      const results = countVowels3(word, queriesArray);
       setResults(results);
     } catch (error) {
       console.error('Invalid input');

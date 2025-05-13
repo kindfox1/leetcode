@@ -44,9 +44,44 @@ const LetterPhoneNumber = () => {
     return combinations;
   };
 
+  const letterCombinations2 = (digits: string): string[] => {
+    if (!digits) return [];
+
+    const phoneMap: Record<string, string[]> = {
+      '2': ['a', 'b', 'c'],
+      '3': ['d', 'e', 'f'],
+      '4': ['g', 'h', 'i'],
+      '5': ['j', 'k', 'l'],
+      '6': ['m', 'n', 'o'],
+      '7': ['p', 'q', 'r', 's'],
+      '8': ['t', 'u', 'v'],
+      '9': ['w', 'x', 'y', 'z'],
+    };
+    const combinations: string[] = [];
+
+    const backtrack = (idx: number, s: string) => {
+      
+
+      if (s.length === digits.length) {
+        combinations.push(s);
+        return;
+      }
+
+      const char = digits[idx];
+      const n = phoneMap[char].length;
+
+      for (let i=0; i<n; i++) {
+        backtrack(idx+1, s+phoneMap[char][i]);
+      }
+    };
+
+    backtrack(0, '');
+    return combinations;
+  };
+
   const handleGenerate = () => {
     try {
-      const combinations = letterCombinations(digits);
+      const combinations = letterCombinations2(digits);
       setResult(combinations);
     } catch (error) {
       console.error('Invalid input');

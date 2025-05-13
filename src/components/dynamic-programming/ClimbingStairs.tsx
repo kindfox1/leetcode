@@ -28,19 +28,34 @@ const ClimbingStairs = () => {
     return prev1;
   };
 
+  // use memory, space complexity O(n) which is less effecient than the first one.
+  const climbStairsMem = (n: number): number => {
+    const mem = new Map<number, number>();
+    const dp = (i: number): number => {
+      if (i <= 1) return 1;
+      if (mem.has(i)) {
+        return mem.get(i)!;
+      }
+
+      mem.set(i, dp(i-1) + dp(i-2));
+      return mem.get(i)!;
+    }
+    return dp(n);
+  };
+
   const handleCalculate = () => {
-    try {
+    //try {
       const steps = parseInt(n, 10);
 
       if (isNaN(steps) || steps < 0) {
         throw new Error('Invalid input');
       }
 
-      const ways = climbStairs(steps);
+      const ways = climbStairsMem(steps);
       setResult(ways);
-    } catch (error) {
-      console.error('Invalid input');
-    }
+    // } catch (error) {
+    //   console.error('Invalid input');
+    // }
   };
 
   return (

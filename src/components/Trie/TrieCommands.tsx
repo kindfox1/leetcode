@@ -102,7 +102,7 @@ const TrieCommands = () => {
           trie.delete(word);
           output.push('Deleted'); // Optional: Indicate deletion
         } else if (command === 'prefix') {
-            output.push(trie.prefix(word));
+          output.push(JSON.stringify(trie.prefix(word)));
         }
       }
 

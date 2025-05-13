@@ -43,6 +43,20 @@ const MaxProfit = () => {
     return maxProfit;
   };
 
+  const maxProfit3 = (prices: number[]): number => {
+    let profit = 0;
+    let minPrice = Infinity;
+
+    for (const price of prices) {
+      if (minPrice > price) {
+        minPrice = price;
+      } else if (price - minPrice > profit) {
+        profit = price - minPrice;
+      }
+    }
+    return profit;
+  };
+
   const handleCalculate = () => {
     try {
       const pricesArray = JSON.parse(prices);

@@ -51,6 +51,25 @@ const AssignCookies = () => {
     return satisfied;
   };
 
+  const findContentChildren3 = (greeds: number[], cookies: number[]): number => {
+    let count = 0;
+    greeds.sort();
+    cookies.sort();
+    let i=0;
+    let j=0;
+
+    while (i<greeds.length && j<cookies.length) {
+      if (greeds[i] <= cookies[i]) {
+        count++;
+        i++;
+        j++;
+      } else {
+        j++;
+      }
+    }
+    return count;
+  };
+
   const handleCalculate = () => {
     try {
       const greedsArray = JSON.parse(greeds);
