@@ -164,6 +164,66 @@ console.log(count);
     return count;
   };
 
+  function numIslands4(grid: string[][]): number {
+    let count = 0;
+    let rows = grid.length;
+    let cols = grid[0].length;
+
+    const bfs = (r: number, c: number) => {
+      if (r < 0 || c < 0 || r >= rows || c >= cols) return;
+
+      grid[r][c] = '0';
+      bfs(r-1, c);
+      bfs(r+1, c);
+      bfs(r, c-1);
+      bfs(r, c+1);
+
+    };
+
+    for (let i=0; i<rows; i++) {
+      for (let j=0; j<cols; j++) {
+        if (grid[i][j]==="1") {
+          count++;
+          bfs(i, j);
+        }
+      }
+    }
+
+    return count;
+  };
+
+  //ChatGPT
+  function numIslandsGpt(grid: string[][]): number {
+    const rows = grid.length;
+    const cols = grid[0]?.length || 0;
+    let count = 0;
+  
+    function dfs(r: number, c: number): void {
+      if (r < 0 || c < 0 || r >= rows || c >= cols || grid[r][c] === "0") {
+        return;
+      }
+  
+      grid[r][c] = "0"; // Mark as visited
+  
+      dfs(r + 1, c); // down
+      dfs(r - 1, c); // up
+      dfs(r, c + 1); // right
+      dfs(r, c - 1); // left
+    }
+  
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        if (grid[r][c] === "1") {
+          count++;
+          dfs(r, c);
+        }
+      }
+    }
+  
+    return count;
+  }
+  
+
   const handleCalculate = () => {
     //try {
       const grid = JSON.parse(input);

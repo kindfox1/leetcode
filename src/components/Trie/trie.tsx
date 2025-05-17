@@ -36,6 +36,32 @@ export class Trie {
       }
       return current.isEndOfWord;
     }
+
+    //this is deep search version to handle wildcard case like ".ord" or "wor.."
+  // search(word: string): boolean {
+  //     return this.dfs(word, 0, this.root);
+  // }
+
+  // private dfs(word: string, index: number, node: TrieNode): boolean {
+  //     if (index === word.length) {
+  //         return node.isEndOfWord;
+  //     }
+
+  //     const char = word[index];
+  //     if (char === '.') {
+  //         for (const child of node.children.values()) {
+  //             if (this.dfs(word, index + 1, child)) {
+  //                 return true;
+  //             }
+  //         }
+  //         return false;
+  //     } else {
+  //         if (!node.children.has(char)) {
+  //             return false;
+  //         }
+  //         return this.dfs(word, index + 1, node.children.get(char)!);
+  //     }
+  // }
   
     delete(word: string): void {
       const deleteHelper = (node: TrieNode, word: string, depth: number): boolean => {

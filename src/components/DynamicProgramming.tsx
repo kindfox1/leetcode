@@ -10,6 +10,7 @@ import LongestIncreasingSubsequence from './dynamic-programming/LongestIncreasin
 import WordBreak from './dynamic-programming/WordBreak';
 // import MaximumProfitJobScheduling from './dynamic-programming/MaximumProfitJobScheduling';
 import MaximumProfitJobScheduling from './dynamic-programming/MaximumProfitJobScheduling';
+import RobHousesCircular from './dynamic-programming/RobHouseCircular';
 
 const Backtracking = () => {
   return (
@@ -23,6 +24,7 @@ const Backtracking = () => {
             <ClimbingStairs />
             <CountingBits />
             <TreasureHunt />
+            <RobHousesCircular />
             <DecodeWays/>
             <MaximalSquare/>
             <UniquePaths />

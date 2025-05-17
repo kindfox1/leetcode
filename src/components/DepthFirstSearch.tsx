@@ -18,6 +18,10 @@ import PacificAtlantic from './depth-first-search/PacificAtlantic';
 import GoodNodes from './depth-first-search/GoodNodes';
 import CloneGraph from './depth-first-search/CloneGraph';
 import GraphValidTree from './depth-first-search/GraphValidTree';
+import IsSubtree from './depth-first-search/IsSubtree';
+import WordSearch from './depth-first-search/WordSearch';
+import ConstructBinaryTree from './depth-first-search/ConstructBinaryTree';
+import LowestCommonAncestor from './depth-first-search/LowestCommonAncestor';
 
 const DepthFirstSearch = () => {
   return (
@@ -38,6 +42,9 @@ const DepthFirstSearch = () => {
           <TreeDiameter />
           <PathSum2 />
           <LongestUnivaluePath />
+          <IsSubtree />
+          <ConstructBinaryTree />
+          <LowestCommonAncestor />
         </div>
         <Typography variant="h4" component="h2" gutterBottom>
           Graph
@@ -57,6 +64,7 @@ const DepthFirstSearch = () => {
           <NumberOfIslands />
           <SurroundedRegions />
           <PacificAtlantic />
+          <WordSearch />
         </div>
       </div>
     </main>

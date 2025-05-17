@@ -121,7 +121,40 @@ const InsertInterval = () => {
     return result;
   };
 
-  
+  function insert5(intervals: number[][], newInterval: number[]): number[][] {
+    const merged :number[][] = [];
+    intervals.sort((a, b) => a[0] - b[0]);
+    let i = 0;
+    let n = intervals.length;
+
+    //edge case at new interval at earliest, no overlap
+    // if (newInterval[1] < intervals[0][0]) {
+    //   //merged.push(newInterval);
+    //   return [newInterval, ...intervals];
+    // }
+
+    // if (intervals[0][1] < newInterval[0]) {
+    //   return [...intervals, newInterval];
+    // }
+
+    while (i < n && intervals[i][1] < newInterval[0]) {
+      merged.push(intervals[i]);
+      i++;
+    }
+
+    while (i < n && intervals[i][0] <= newInterval[1]) {
+      newInterval[0] = Math.min(newInterval[0], intervals[i][0]);
+      newInterval[1] = Math.max(newInterval[1], intervals[i][1]);
+      i++;
+    }
+    merged.push(newInterval);
+
+    for (let j=i; j<n; j++) {
+      merged.push(intervals[j]);
+    }
+
+    return merged;
+  };
 
   const handleInsert = () => {
     try {

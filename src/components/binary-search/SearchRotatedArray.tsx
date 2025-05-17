@@ -95,10 +95,14 @@ const SearchRotatedArray = () => {
     return -1;
   };
 
+
+
+
   const handleSearch = () => {
     try {
       const nums = input.split(',').map(Number);
       const targetNum = parseInt(target);
+      //findMin(nums);
       setResult(search3(nums, targetNum));
     } catch (error) {
       console.error('Invalid input format');

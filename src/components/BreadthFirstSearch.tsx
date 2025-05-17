@@ -6,6 +6,7 @@ import ZigzagLevelOrder from './breadth-first-search/ZigzagLevelOrder';
 import RottenOranges from './breadth-first-search/RottenOranges';
 import Matrix01 from './breadth-first-search/Matrix01';
 import BusRoutes from './breadth-first-search/BusRoutes';
+import InvertBinaryTree from './breadth-first-search/InvertBinaryTree';
 
 const BreadthFirstSearch = () => {
   return (
@@ -22,6 +23,7 @@ const BreadthFirstSearch = () => {
           <RottenOranges />
           <Matrix01 />
           <BusRoutes />
+          <InvertBinaryTree />
         </div>
       </div>
     </main>

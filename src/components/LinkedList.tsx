@@ -7,6 +7,7 @@ import ReorderList from './linked-list/ReorderList';
 import RemoveNthNode from './linked-list/RemoveNthNode';
 import MergeSortedLists from './linked-list/MergeSortedLists';
 import MergeKSortedLists from './linked-list/MergeKSortedLists';
+import ReverseLinkedList from './linked-list/ReverseLinkedList';
 
 const LinkedList = () => {
   return (
@@ -24,6 +25,7 @@ const LinkedList = () => {
           <RemoveNthNode />
           <MergeSortedLists />
           <MergeKSortedLists />
+          <ReverseLinkedList />
         </div>
       </div>
     </main>

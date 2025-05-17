@@ -9,7 +9,7 @@ interface TreeNode {
 
 const InvertBinaryTree = () => {
   const [input, setInput] = useState('');
-  const [result, setResult] = useState<TreeNode | null>(null);
+  const [result, setResult] = useState<number[] | null>(null);
 
   const buildTree = (values: (number | null)[]): TreeNode | null => {
     if (!values.length) return null;
@@ -49,28 +49,51 @@ const InvertBinaryTree = () => {
     return root;
   };
 
+  const invertTree2 = (root: TreeNode | null): TreeNode | null => {
+    if (!root) return null; 
+    const left = invertTree(root.left);
+    const right = invertTree(root.right);
+
+    root.left = right;
+    root.right = left;
+    return root;
+
+  }
+
+  const treeToArray = (root: TreeNode | null): number[] => {
+    if (!root) return [];
+    const result: (number | null)[] = [];
+    const queue: (TreeNode | null)[] = [root];
+
+    while (queue.length) {
+      const node = queue.shift();
+      if (node) {
+        result.push(node.val);
+        queue.push(node.left);
+        queue.push(node.right);
+      } else {
+        result.push(null);
+      }
+    }
+
+    // Remove trailing nulls for a cleaner output
+    while (result[result.length - 1] === null) {
+      result.pop();
+    }
+
+    return result as number[];
+  };
+
   const handleInvert = () => {
     try {
       const values = JSON.parse(input);
       const tree = buildTree(values);
       const invertedTree = invertTree(tree);
-      setResult(invertedTree);
+      const resultArray = treeToArray(invertedTree);
+      setResult(resultArray);
     } catch (error) {
       console.error('Invalid input format');
     }
-  };
-
-  const renderTree = (node: TreeNode | null): JSX.Element | null => {
-    if (!node) return null;
-    return (
-      <div style={{ marginLeft: '20px' }}>
-        <div>{node.val}</div>
-        <div style={{ display: 'flex' }}>
-          {renderTree(node.left)}
-          {renderTree(node.right)}
-        </div>
-      </div>
-    );
   };
 
   return (
@@ -99,8 +122,8 @@ const InvertBinaryTree = () => {
       </Button>
       {result && (
         <Box mt={2}>
-          <Typography variant="h6">Inverted Tree:</Typography>
-          <div>{renderTree(result)}</div>
+          <Typography variant="h6">Inverted Tree as Array:</Typography>
+          <Typography>{JSON.stringify(result)}</Typography>
         </Box>
       )}
     </div>

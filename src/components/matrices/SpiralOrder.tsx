@@ -131,6 +131,48 @@ const SpiralOrder = () => {
     return result;
   };
 
+  function spiralOrder4(matrix: number[][]): number[] {
+    let rows = matrix.length;
+    let cols = matrix[0].length;
+    let top = 0;
+    let right = cols -1;
+    let bottom = rows -1;
+    let left = 0;
+    const result: number[] = [];
+
+    while (top <= bottom && left <= right) {
+      //top
+      for (let c=left; c<=right; c++) {
+        result.push(matrix[top][c]);
+      }
+      top++;
+
+      //right
+      for (let r=top; r<=bottom; r++) {
+        result.push(matrix[r][right]);
+      }
+      right--;
+
+      //bottom 
+      if (top <= bottom) {
+        for (let b=right; b>=left; b--) {
+          result.push(matrix[bottom][b]);
+        }
+        bottom--;
+      }
+
+      //left
+      if (left <= right) {
+        for (let l=bottom; l>=top; l--) {
+          result.push(matrix[l][left]);
+        }
+        left++;
+      }
+    }
+
+    return result;
+  };
+
   const handleCalculate = () => {
     try {
       const parsedMatrix = JSON.parse(matrix);
@@ -144,7 +186,7 @@ const SpiralOrder = () => {
         throw new Error('Invalid input');
       }
 
-      const spiralResult = spiralOrder2(parsedMatrix);
+      const spiralResult = spiralOrder4(parsedMatrix);
       setResult(spiralResult);
     } catch (error) {
       console.error('Invalid input');

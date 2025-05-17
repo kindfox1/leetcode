@@ -44,6 +44,30 @@ const TreasureHunt = () => {
     return prev1;
   };
 
+  function rob(nums: number[]): number {
+    const dp = Array(nums.length+1).fill(0);
+    dp[1] = nums[0];
+
+    for (let i=2; i<=nums.length; i++) {
+      dp[i] = Math.max(dp[i-1], nums[i-1] + dp[i-2]);
+    }
+    return dp[nums.length];
+  };
+
+  function rob2(nums: number[]): number {
+    if (nums.length===1) return nums[0];
+    const dp = Array(nums.length).fill(0);
+    dp[0] = nums[0];
+    dp[1] = Math.max(nums[0], nums[1]);
+
+    let maxHaul = Math.max(dp[0], dp[1]);
+
+    for (let i=2; i<nums.length; i++) {
+      dp[i] = Math.max(dp[i-1], nums[i] + dp[i-2]);
+    }
+    return Math.max(maxHaul, dp[nums.length-1]);
+};
+
   const handleCalculate = () => {
     try {
       const treasureArray = JSON.parse(treasure);
@@ -52,7 +76,7 @@ const TreasureHunt = () => {
         throw new Error('Invalid input');
       }
 
-      const maxHaul = maxTreasure(treasureArray);
+      const maxHaul = rob(treasureArray);
       setResult(maxHaul);
     } catch (error) {
       console.error('Invalid input');

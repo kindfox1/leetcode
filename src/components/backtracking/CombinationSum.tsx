@@ -86,6 +86,32 @@ const CombinationSum = () => {
     return result;
   }
 
+  const combinationSum4 = (candidates: number[], target: number): number[][] => {
+    const result :number[][] = [];
+
+    const backtracking = (start: number, comb: number[], remain: number) => {
+      if (remain===0) {
+        result.push([...comb]);
+        return;
+      }
+      
+      if (remain < 0) return;
+
+      
+
+      for (let i=start; i<candidates.length; i++) {
+        comb.push(candidates[i]);
+        backtracking(i, comb, remain-candidates[i]);
+        comb.pop();
+      }
+    }
+
+    //candidates.sort((a, b) => a - b);
+    backtracking(0, [], target);
+
+    return result;
+  };
+
 
 
   const handleGenerate = () => {
@@ -102,7 +128,7 @@ const CombinationSum = () => {
         throw new Error('Invalid input');
       }
 
-      const combinations = combinationSum(candidatesArray, targetValue);
+      const combinations = combinationSum4(candidatesArray, targetValue);
       setResult(combinations);
     } catch (error) {
       console.error('Invalid input');

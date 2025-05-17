@@ -43,6 +43,18 @@ const ClimbingStairs = () => {
     return dp(n);
   };
 
+  function climbStairs3(n: number): number {
+    const dp = Array(n+1).fill(0);
+
+    dp[1] = 1;
+    dp[2] = 2;
+    for (let i=3; i<=n; i++) {
+      dp[i] = dp[i-1] + dp[i-2];
+    }
+
+    return dp[n];
+  };
+
   const handleCalculate = () => {
     //try {
       const steps = parseInt(n, 10);
@@ -51,7 +63,7 @@ const ClimbingStairs = () => {
         throw new Error('Invalid input');
       }
 
-      const ways = climbStairsMem(steps);
+      const ways = climbStairs3(steps);
       setResult(ways);
     // } catch (error) {
     //   console.error('Invalid input');

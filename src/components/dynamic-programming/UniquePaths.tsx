@@ -64,6 +64,28 @@ const UniquePaths = () => {
 
     return dfs(m, n);
   }
+
+  function uniquePathsLc(m: number, n: number): number {
+    if (m===1 || n===1) return 1;
+    const dp = Array.from({ length: m }, () => Array(n).fill(0));
+    
+    // fill first row and first col
+    for (let i=0; i<n; i++) {
+      dp[0][i] = 1;
+    }
+
+    for (let j=0; j<m; j++) {
+      dp[j][0] = 1;
+    }
+
+    for (let x=1; x<m; x++) {
+      for (let y=1; y<n; y++) {
+        dp[x][y] = dp[x-1][y] + dp[x][y-1];
+      }
+    }
+
+    return dp[m-1][n-1];
+  }
   
 
   const handleCalculate = () => {
@@ -75,7 +97,7 @@ const UniquePaths = () => {
         throw new Error('Invalid input');
       }
 
-      const paths = uniquePathsRe2(rows, cols);
+      const paths = uniquePathsLc(rows, cols);
       setResult(paths);
     } catch (error) {
       console.error('Invalid input');
