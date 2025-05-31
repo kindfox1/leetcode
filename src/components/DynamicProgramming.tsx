@@ -11,6 +11,8 @@ import WordBreak from './dynamic-programming/WordBreak';
 // import MaximumProfitJobScheduling from './dynamic-programming/MaximumProfitJobScheduling';
 import MaximumProfitJobScheduling from './dynamic-programming/MaximumProfitJobScheduling';
 import RobHousesCircular from './dynamic-programming/RobHouseCircular';
+import MinEditDistance from './dynamic-programming/MinEditDistance';
+import PaintWalls from './dynamic-programming/PaintWalls';
 
 const Backtracking = () => {
   return (
@@ -31,6 +33,8 @@ const Backtracking = () => {
             <LongestIncreasingSubsequence/>
             <WordBreak/>
             <MaximumProfitJobScheduling />
+            <MinEditDistance />
+            <PaintWalls />
         </div>
       </div>
     </main>

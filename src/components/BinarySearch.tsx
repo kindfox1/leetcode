@@ -3,6 +3,7 @@ import { Typography } from '@mui/material';
 import AppleHarvest from './binary-search/AppleHarvest';
 import SearchRotatedArray from './binary-search/SearchRotatedArray';
 import BinSearth from './binary-search/BinarySearch';
+import DeleteNodeBST from './binary-search/DeleteNodeBST';
 
 const BinarySearch = () => {
   return (
@@ -16,6 +17,7 @@ const BinarySearch = () => {
           <BinSearth />
           <AppleHarvest />
           <SearchRotatedArray />
+          <DeleteNodeBST />
         </div>
       </div>
     </main>

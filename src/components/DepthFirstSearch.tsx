@@ -22,6 +22,7 @@ import IsSubtree from './depth-first-search/IsSubtree';
 import WordSearch from './depth-first-search/WordSearch';
 import ConstructBinaryTree from './depth-first-search/ConstructBinaryTree';
 import LowestCommonAncestor from './depth-first-search/LowestCommonAncestor';
+import MaxPathSum from './depth-first-search/MaxPathSum';
 
 const DepthFirstSearch = () => {
   return (
@@ -45,6 +46,7 @@ const DepthFirstSearch = () => {
           <IsSubtree />
           <ConstructBinaryTree />
           <LowestCommonAncestor />
+          <MaxPathSum />
         </div>
         <Typography variant="h4" component="h2" gutterBottom>
           Graph
